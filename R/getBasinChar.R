@@ -55,6 +55,7 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
     #  "gagesII_conterm_PUBairdropchar_full_UTM.csv")
     "gagesII_PUBairdropchar_full_UTM.csv")
   BasChar <- read.csv(BasChar,as.is=T)
+  # Need to edit above for package development.
 
   # Cut down to only sites requested.
   ndx <- match(as.double(as.character(listofgages$gages)),BasChar$STAID)
