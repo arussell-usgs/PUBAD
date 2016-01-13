@@ -50,16 +50,10 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
   # Fused with code by Thomas Over and Mike Olsen, 30 June 2015.
   #   Includes code to clean, winnow and transform variables.
 
-  # Load all basin characteristics.
-  BasChar <- file.path("Data","Raw",
-    #  "gagesII_conterm_PUBairdropchar_full_UTM.csv")
-    "gagesII_PUBairdropchar_full_UTM.csv")
-  BasChar <- read.csv(BasChar,as.is=T)
-  # Need to edit above for package development.
-
   # Cut down to only sites requested.
-  ndx <- match(as.double(as.character(listofgages$gages)),BasChar$STAID)
-  BasChar <- BasChar[ndx,]
+  # NOTE: BasCharRaw is embedded in sysdata.rda
+  ndx <- match(as.double(as.character(listofgages$gages)),BasCharRaw$STAID)
+  BasChar <- BasCharRaw[ndx,]
 
   # Save all variables
   if (destination!="") {
