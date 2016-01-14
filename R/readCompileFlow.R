@@ -30,10 +30,15 @@
 #'
 #' @return The function returns a zoo object of observed streamflows.
 #'@export
+#'@import dataRetrieval
+#'@import zoo
 readCompileFlow<-function(listofgages,units=c("cfs","cms"),dataset_name="",
   startDate="",endDate="",checkmiss=FALSE,keepNAdays=TRUE){
   # Function orginially designed by Stacey A. Archfield, 02 June 2015.
   # Modified by William Farmer, 03 June 2015.
+
+  # @importFrom dataRetrieval readNWISdv
+  # @importFrom  zoo zoo
 
   # Read in stations from input file; no header
   stations<-listofgages

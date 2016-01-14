@@ -4,8 +4,8 @@
 \alias{index.MC}
 \title{Rank the best index gages for each target site.}
 \usage{
-index.MC(index.gages, index.obs, index.baschar, target.gages, target.obs,
-  target.baschar, method = c("pearson", "kendall", "spearman"))
+\method{index}{MC}(index.gages, index.obs, index.baschar, target.gages,
+  target.obs, target.baschar, method = c("pearson", "kendall", "spearman"))
 }
 \arguments{
 \item{index.gages}{A numeric vector of the streamgage IDs to be used as

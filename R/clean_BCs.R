@@ -6,7 +6,7 @@
 #' removing unncessary or not-useful variables.
 #'
 #' @param BCs A data frame of basin characteristics from
-#' \link{\code{winnow_BCs}}.
+#' \code{\link{winnow_BCs}}.
 #' @param BC.code6.remflg (optional)  A logical flag that indicates whether or
 #' not variables derived from a non-calibrated hydrologic model will be removed.
 #'   The default, \code{FALSE} requests that these be retained.
@@ -21,16 +21,18 @@
 #'
 #' @details
 #' "Cleans" basin characteristics (BCs) by:
-#' \item{1.}{Removing BCs that are cannot be used because they are non-numeric
+#' \itemize{
+#' \item{1.}{\itemize{Removing BCs that are cannot be used because they are non-numeric
 #' or, according to current thinking, should not be used because they:
 #' \item{a)}{measure hydrologic modifications such as dams or land development}
 #' \item{b)}{use NHD or TIGER roads which are spatially non-uniform
 #' in their "resolution"}
 #' \item{c)}{use measured streamflow (e.g, kriged streamflow statistics or
 #' calibrated model output)}
-#' \item{d)}{optionally, BCs based on non-calibrated hydrologic models}}
+#' \item{d)}{optionally, BCs based on non-calibrated hydrologic models}}}
 #' \item{2.}{Removing BCs that have a large fraction, whose value is given by
 #' \code{max.BC.oneval.frac},of values that are the same.}
+#' }
 #'
 #' @return A matrix of basin characteristics, with several removed.
 #'@export
@@ -43,10 +45,10 @@ clean_BCs <- function(BCs,BC.code6.remflg=F, max.BC.oneval.frac = 0.5,
   col_order = c(class_col,(1:ncol(BCs))[-class_col])
   BCs = BCs[,col_order]
 
-  GAGESII_BC_var_code_file <- file.path("Data","Raw",
-    "selectedBCs.var_codes.csv")
+  #GAGESII_BC_var_code_file <- file.path("Data","Raw",
+  #  "selectedBCs.var_codes.csv")
   #Read in GAGES II variable code file
-  GAGESII.var_codes = read.csv(GAGESII_BC_var_code_file)
+  #GAGESII.var_codes = read.csv(GAGESII_BC_var_code_file)
   BC.codes = GAGESII.var_codes$CODE
   BC.code.names = GAGESII.var_codes$VARIABLE_NAME
   nstatns = nrow(BCs)

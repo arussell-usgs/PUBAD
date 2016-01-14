@@ -6,7 +6,7 @@
 #' characteristics to induce linearity.
 #'
 #' @param BCs A data frame of basin characteristics from
-#' \link{\code{winnow_BCs}}.
+#' \code{\link{winnow_BCs}}.
 #' @param debug.flg (optional) A logical indicating if verbose outputs are
 #' required from variable transformation.  The default is \code{FALSE}.
 #' @param BC_sfx (optional) A character string appending certain condition
@@ -17,7 +17,7 @@
 #'
 #' @details
 #' Receives the "winnowed" basin characteristics (BCs) produced by
-#' \link{\code{winndow_BCs}} and then determines need for transformation of
+#' \code{\link{winndow_BCs}} and then determines need for transformation of
 #' BCs by computing some summary statistics and then skewness for original and
 #' centered data (if needed) and different transformations (currently powers
 #' of 1/10, 1/5, 1/3, 1/2, 2/3, 3/2, 2, 3, 5 and 10 plus log10 and 10^)
@@ -39,10 +39,13 @@
 #' \item{finalBC.corr}{The cross-correlation matrix of final, transformed
 #' basin characteristics.}
 #'@export
+#'@import moments
 transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
   # Function orginially designed by Thomas M. Over and Mike Olsen, 30 June 2015.
   # Modified by William Farmer, 30 June 2015.
   # Revised by TMO 02 July 2015, Implemented by WHF 06 July 2015
+
+  # @importFrom moments skewness
 
   #Compute number of BCs in input data frame
   class_col = which(names(BCs)=="CLASS")

@@ -13,14 +13,14 @@ tolist(names, vars, range, leaps_list)
 
 \item{range}{Unclear.}
 
-\item{leaps_list}{Output from \link{\code{compute.leaps.for}}}
+\item{leaps_list}{Output from \code{\link{compute.leaps.for}}}
 }
 \value{
 A list of subsets of EVs (y), their ranks (rank),
 and the full set of EVs for each quantile
 }
 \description{
-A sub-function used by \link{\code{compile.vars}}.
+A sub-function used by \code{\link{compile.vars}}.
 }
 \details{
 Lorem ipsum...

@@ -8,7 +8,7 @@ regimes(unfilled_FDCs, zero_val = 0.001)
 }
 \arguments{
 \item{unfilled_FDCs}{A matrix of the raw FDC quantiles for each site.
-This is derived from the output of \link{\code{calcEmpFDCs}}.}
+This is derived from the output of \code{\link{calcEmpFDCs}}.}
 
 \item{zero_val}{(optional)  The value to which zeroes or negative quantiles
 will be set to.  The default is \code{0.001}.}

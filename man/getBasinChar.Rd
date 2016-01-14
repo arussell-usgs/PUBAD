@@ -39,14 +39,14 @@ categorical data or variables with a large proportion of
 identical variables.}
 \item{winnowedBCs}{A data frame of basin characteristics with correlations
 removed and climates aggregated to seasonal signals.}
-\item{transf}{A list of the variable transformations:
+\item{transf}{\itemize{A list of the variable transformations:
   \item{transfBCs}{A data frame of basin characteristics with
   transformations for linearity applied.}
   \item{transf.info}{A data frame describing all transformations applied.}
   \item{transfBC.VIFs}{A vector of the variance inflation factors (VIFs)
   of each bsin characteristic.}
   \item{transfBC.corr}{A square matrix of the correlations between basin
-  characteristics.}
+  characteristics.}}
 }
 }
 \description{

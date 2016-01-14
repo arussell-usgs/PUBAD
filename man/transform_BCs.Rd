@@ -8,7 +8,7 @@ transform_BCs(BCs, debug.flg = F, BC_sfx = "", destination = "")
 }
 \arguments{
 \item{BCs}{A data frame of basin characteristics from
-\link{\code{winnow_BCs}}.}
+\code{\link{winnow_BCs}}.}
 
 \item{debug.flg}{(optional) A logical indicating if verbose outputs are
 required from variable transformation.  The default is \code{FALSE}.}
@@ -38,7 +38,7 @@ characteristics to induce linearity.
 }
 \details{
 Receives the "winnowed" basin characteristics (BCs) produced by
-\link{\code{winndow_BCs}} and then determines need for transformation of
+\code{\link{winndow_BCs}} and then determines need for transformation of
 BCs by computing some summary statistics and then skewness for original and
 centered data (if needed) and different transformations (currently powers
 of 1/10, 1/5, 1/3, 1/2, 2/3, 3/2, 2, 3, 5 and 10 plus log10 and 10^)

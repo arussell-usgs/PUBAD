@@ -48,7 +48,7 @@ variogram model should be used.  The deafult is the \code{'spherical'} model.}
 }
 \value{
 A list of two elements:
-\item{OKLUD}{A list with each element corresponding to \code{target.gages},
+\item{OKLUD}{\itemize{A list with each element corresponding to \code{target.gages},
 with each element of that list containg a data frame of
 \item{date}{The date of the row.}
 \item{est}{The estimated streamflow values for each day.}
@@ -63,7 +63,7 @@ locations.}
 \item{index}{If extrapolation was used, the index ID.}
 \item{metric}{If extrapolation was used, the similarity metric between the
 index and target.}
-\item{obs}{The observed streamflow.}}
+\item{obs}{The observed streamflow.}}}
 \item{varPar}{A data frame of daily variogram parameters.  These include
 covariance parameters, nugget values, kappa values, the variogram value,
 the covariance model, the maximum distance, the distance percentile and

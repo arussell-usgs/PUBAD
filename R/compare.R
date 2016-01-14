@@ -1,7 +1,7 @@
 #' Cross-compare models.
 #'
 #' @description
-#' A sub-function used by \link{\code{compile.vars}}.
+#' A sub-function used by \code{\link{compile.vars}}.
 #'
 #' @param out Unclear.
 #' @param y Unclear.

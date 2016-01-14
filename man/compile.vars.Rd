@@ -12,7 +12,7 @@ compile.vars(leaps_list, nvmax = 6, n = 20, range = list(low_range =
   "0.9995", "0.9998")), unfilled_FDCs = NA)
 }
 \arguments{
-\item{leaps_list}{Output from \link{\code{compute.leaps.for}}}
+\item{leaps_list}{Output from \code{\link{compute.leaps.for}}}
 
 \item{nvmax}{(optional)  The maximum number of variables that will be
 considered in a regression.  The default is \code{6}.}
@@ -39,7 +39,7 @@ for each regime.
 }
 \description{
 The function \code{compile.vars} takes output from
-\link{\code{compute.leaps.for}} and compiles the candidate models across
+\code{\link{compute.leaps.for}} and compiles the candidate models across
 specified quantiles and regimes.
 }
 \details{

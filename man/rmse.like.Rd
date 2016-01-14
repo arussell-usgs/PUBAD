@@ -4,7 +4,7 @@
 \alias{rmse.like}
 \title{Compute the Root-Mean-Squared Error Statistics}
 \usage{
-rmse.like(Obs, Est, MARGIN = 2)
+\method{rmse}{like}(Obs, Est, MARGIN = 2)
 }
 \arguments{
 \item{Obs}{A matrix of observations.}

@@ -12,17 +12,17 @@ best.models(top_n_list, unfilled_FDCs, expl, comp.wys, save.dir = NULL,
   "0.98", "0.99", "0.995", "0.998", "0.999", "0.9995", "0.9998")))
 }
 \arguments{
-\item{top_n_list}{Output from \link{\code{compile.vars}}}
+\item{top_n_list}{Output from \code{\link{compile.vars}}}
 
 \item{unfilled_FDCs}{A matrix of the raw FDC quantiles for each site.
-This is derived from the output of \link{\code{calcEmpFDCs}}.}
+This is derived from the output of \code{\link{calcEmpFDCs}}.}
 
 \item{expl}{A data frame of the potential explanatory variables,
-derived from the output of \link{\code{getBasinChar}}.}
+derived from the output of \code{\link{getBasinChar}}.}
 
 \item{comp.wys}{A vector indicating how many complete water years
 were present for each site.  This is derived from the output of
-\link{\code{calcEmpFDCs}}.}
+\code{\link{calcEmpFDCs}}.}
 
 \item{save.dir}{(optional) A directory to which results are to be saved.
 The default behavior \code{save.dir=NULL} does not save results.}
@@ -56,7 +56,7 @@ list(lowflow = c("0.0002","0.0005","0.001","0.002","0.005","0.01","0.02",
 Top three models (by AIC and adjustes R2) for each regime.
 }
 \description{
-Takes output from \link{\code{compile.vars}} and determines
+Takes output from \code{\link{compile.vars}} and determines
 the best average model for each regime.
 }
 \details{

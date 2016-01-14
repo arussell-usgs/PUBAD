@@ -10,17 +10,17 @@ compute.leaps.for(unfilled_FDCs, filled_FDCs, comp.wys, expl, WY.lim = 10,
 }
 \arguments{
 \item{unfilled_FDCs}{A matrix of the raw FDC quantiles for each site.
-This is derived from the output of \link{\code{calcEmpFDCs}}.}
+This is derived from the output of \code{\link{calcEmpFDCs}}.}
 
 \item{filled_FDCs}{A matrix of the censor-filled FDC quantiles
-for each site.  This is derived from the output of \link{\code{calcEmpFDCs}}.}
+for each site.  This is derived from the output of \code{\link{calcEmpFDCs}}.}
 
 \item{comp.wys}{A vector indicating how many complete water years
 were present for each site.  This is derived from the output of
-\link{\code{calcEmpFDCs}}.}
+\code{\link{calcEmpFDCs}}.}
 
 \item{expl}{A data frame of the potential explanatory variables,
-derived from the output of \link{\code{getBasinChar}}.}
+derived from the output of \code{\link{getBasinChar}}.}
 
 \item{WY.lim}{(optional)  The minimum number of water years required to be
 included in the formation of regional regressions.  Only reference-quality
@@ -50,7 +50,7 @@ The default is \code{TRUE}.}
 A list of lists, one for each quantile, with each of those
 containing one array of models per variable level. The models are
 automatically ranked by regsubsets' weighted least-sqaures method,
-but the reported R^2 and BIC are calculated from \link{\code{censReg}}.
+but the reported R^2 and BIC are calculated from \code{\link{censReg}}.
 }
 \description{
 The function \code{compute.leaps.for} explores the wide
@@ -60,11 +60,11 @@ a parallel \code{for} loop.
 }
 \details{
 This function creates and ranks regression models. It runs regsubsets on
-the filled FDCs, and then uses those models in \link{\code{censReg}} on the
+the filled FDCs, and then uses those models in \code{\link{censReg}} on the
 unfilled FDCs. All of the FDCs are transformed using the common logarithm.
 Any model with a variable that has a VIF higher than the user defined
 limit \code{max.VIF} will be dropped. The models are automatically ranked
 by regsubsets' weighted least-sqaures method, but the reported R^2 and BIC
-are calculated from \link{\code{censReg}}.
+are calculated from \code{\link{censReg}}.
 }
 

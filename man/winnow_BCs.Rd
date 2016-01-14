@@ -8,7 +8,7 @@ winnow_BCs(BCs, BC.code6.remflg = F)
 }
 \arguments{
 \item{BCs}{A data frame of basin characteristics from
-\link{\code{clean_BCs.R}}.}
+\code{\link{clean_BCs.R}}.}
 
 \item{BC.code6.remflg}{(optional) A logical value indicating if the code-6
 variables, those derived from an uncalibrated hydrologic model,
@@ -23,11 +23,12 @@ and aggregate monthly variables to seasonal variables.
 }
 \details{
 Reads in the "clean" basin characteristics (BCs) produced by
-\link{\code{clean_BCs.R}} and then "winnows" them by:
+\code{\link{clean_BCs.R}} and then "winnows" them by:
+\itemize{
 \item{1.}{"pre-removing" various highly correlated or unlikely to be useful
 BCs, including "SITE", "STD", "CDL", forest NLCD variables other than total
 forest (FORESTNLCD06).}
-\item{2.}{Add a few BCs are combinations of existing BCs, including:
+\item{2.}{\itemize{Add a few BCs are combinations of existing BCs, including:
 \item{(a)}{July - Jan monthly temperatures (then all other monthly
 temperatures are removed; annual average is also retained.)}
 \item{(b)}{Phase of annual cycle of monthly water balance WB (WB5100...)
@@ -39,6 +40,7 @@ WB5100_ANN_MM.}
 wetland fraction; also creating a NLCD total wetland plus NLCD water
 variable}
 \item{(e)}{Adding ELEV_RANGE_M_BASIN variable as difference of
-ELEV_MAX_M_BASIN and ELEV_MIN_M_BASIN}}
+ELEV_MAX_M_BASIN and ELEV_MIN_M_BASIN}}}
+}
 }
 

@@ -38,7 +38,7 @@
 #' Lorem ipsum...
 #'
 #' @return A list of two elements:
-#' \item{OKLUD}{A list with each element corresponding to \code{target.gages},
+#' \item{OKLUD}{\itemize{A list with each element corresponding to \code{target.gages},
 #' with each element of that list containg a data frame of
 #' \item{date}{The date of the row.}
 #' \item{est}{The estimated streamflow values for each day.}
@@ -53,18 +53,23 @@
 #' \item{index}{If extrapolation was used, the index ID.}
 #' \item{metric}{If extrapolation was used, the similarity metric between the
 #' index and target.}
-#' \item{obs}{The observed streamflow.}}
+#' \item{obs}{The observed streamflow.}}}
 #' \item{varPar}{A data frame of daily variogram parameters.  These include
 #' covariance parameters, nugget values, kappa values, the variogram value,
 #' the covariance model, the maximum distance, the distance percentile and
 #' the number of bins.}
 #'
 #'@export
+#'@import zoo
+#'@import geoR
 krigeLUD <- function(index.gages,index.baschar,index.obs,
   target.gages,target.baschar,target.obs,zero.val=NA,
   FixNug=F,FixKap=T,numbins=10,distperc=1,CovMod="spherical") {
   # Based on code orginally developed by William Farmer, 31 July 2014
   # Revised by William Farmer, 05 June 2015
+
+  # @importFrom zoo index as.Date
+  # @importFrom geoR variog variofit krige.conv
 
   # Assume all TS are the same length... (with NA for missing)
   TargetDates <- index(target.obs[[1]])

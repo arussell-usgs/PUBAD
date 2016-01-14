@@ -40,6 +40,7 @@
 #' \item{PORstats.compWyr}{The number of complete water
 #' years available at each site.}
 #'@export
+#'@import zoo
 calcEmpFDCs <- function(flow_data, quant.type=9, cens='unfilled',
   cens_level=.005, begWyr=1900, endWyr=2014, saveName='',
   FDC.probs=c(0.0002,0.0005,0.001,0.002,0.005,0.01,0.02,0.05,0.10,0.20,0.25,
@@ -48,6 +49,8 @@ calcEmpFDCs <- function(flow_data, quant.type=9, cens='unfilled',
 {
   # Function orginially designed by Thomas M. Over and Mike Olsen, 05 June 2015.
   # Modified by William Farmer, 08 June 2015.
+
+  # @importFrom zoo as.Date
 
   # List inputs for saving later
   inputs <- list(flow_data=flow_data, quant.type=quant.type, cens=cens,

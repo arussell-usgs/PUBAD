@@ -1,12 +1,12 @@
 #' List of EVs
 #'
 #' @description
-#' A sub-function used by \link{\code{compile.vars}}.
+#' A sub-function used by \code{\link{compile.vars}}.
 #'
 #' @param names Unclear.
 #' @param vars Unclear.
 #' @param range Unclear.
-#' @param leaps_list Output from \link{\code{compute.leaps.for}}
+#' @param leaps_list Output from \code{\link{compute.leaps.for}}
 #'
 #' @details
 #' Lorem ipsum...

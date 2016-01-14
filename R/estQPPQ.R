@@ -48,10 +48,13 @@
 #' \item{obs.pval}{The observed p-value at the target location on each day.
 #' Used for validation.}
 #'@export
+#'@import zoo
 estQPPQ <- function(index.network,index.obs,index.empFDC,zero.val=NA,
   target.obs,target.empFDC,target.estFDC,pvals) {
   # Based on code orginally developed by William Farmer, 19 May 2014
   # Revised by William Farmer, 05 June 2015
+
+  # @importFrom zoo as.Date index
 
   # Setup matrices
   result <- list()

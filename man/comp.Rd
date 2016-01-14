@@ -14,16 +14,16 @@ comp(flow, numvars, unfilled_FDCs, comp.wys, top_n_list, expl, WY.lim = 10,
 the regression.}
 
 \item{unfilled_FDCs}{A matrix of the raw FDC quantiles for each site.
-This is derived from the output of \link{\code{calcEmpFDCs}}.}
+This is derived from the output of \code{\link{calcEmpFDCs}}.}
 
 \item{comp.wys}{A vector indicating how many complete water years
 were present for each site.  This is derived from the output of
-\link{\code{calcEmpFDCs}}.}
+\code{\link{calcEmpFDCs}}.}
 
-\item{top_n_list}{Output from \link{\code{compile.vars}}}
+\item{top_n_list}{Output from \code{\link{compile.vars}}}
 
 \item{expl}{A data frame of the potential explanatory variables,
-derived from the output of \link{\code{getBasinChar}}.}
+derived from the output of \code{\link{getBasinChar}}.}
 
 \item{WY.lim}{(optional)  The minimum number of water years required to be
 included in the formation of regional regressions.  Only reference-quality
@@ -43,7 +43,7 @@ The deafult is \code{20}.}
 The default behavior \code{save.dir=NULL} does not create plots.}
 }
 \value{
-Unclear.  Used by \link{\code{best.models}}, among others.
+Unclear.  Used by \code{\link{best.models}}, among others.
 }
 \description{
 A sub-function for single comparison of models in a flow regime.

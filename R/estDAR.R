@@ -40,11 +40,14 @@
 #' \item{obs}{The observed streamflow at the target location on each day.
 #' Used for validation.}
 #'@export
+#'@import zoo
 estDAR <- function(index.network,index.baschar,
   target.baschar,index.obs,target.obs,
   DAR.low=-Inf,DAR.high=Inf) {
   # Based on code orginally developed by William Farmer, 31 July 2014
   # Revised by William Farmer, 03 June 2015
+
+  # @importFrom zoo as.Date
 
   # Setup matrices
   result <- list()

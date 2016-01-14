@@ -7,13 +7,13 @@
 #' @param numvars The maximum number of variables considered in
 #' the regression.
 #' @param unfilled_FDCs A matrix of the raw FDC quantiles for each site.
-#' This is derived from the output of \link{\code{calcEmpFDCs}}.
+#' This is derived from the output of \code{\link{calcEmpFDCs}}.
 #' @param comp.wys A vector indicating how many complete water years
 #' were present for each site.  This is derived from the output of
-#' \link{\code{calcEmpFDCs}}.
-#' @param top_n_list Output from \link{\code{compile.vars}}
+#' \code{\link{calcEmpFDCs}}.
+#' @param top_n_list Output from \code{\link{compile.vars}}
 #' @param expl A data frame of the potential explanatory variables,
-#' derived from the output of \link{\code{getBasinChar}}.
+#' derived from the output of \code{\link{getBasinChar}}.
 #' @param WY.lim (optional)  The minimum number of water years required to be
 #'  included in the formation of regional regressions.  Only reference-quality
 #'  sites with at least this many complete water years will be used.
@@ -30,13 +30,16 @@
 #' @details
 #' Lorem ipsum...
 #'
-#' @return Unclear.  Used by \link{\code{best.models}}, among others.
+#' @return Unclear.  Used by \code{\link{best.models}}, among others.
 #'@export
+#'@import smwrQW
 comp<-function(flow, numvars, unfilled_FDCs,comp.wys,top_n_list,expl,WY.lim=10,
   zero.val=0.001,cens_level = 0.005, n=20,plot.dir=NULL) {
   # Function orginially designed by Thomas M. Over and Mike Olsen, 03 July 2015.
   # Modified by William Farmer, 06 July 2015.
   #     Re-written to prevent writing key files; returns output instead.
+
+  # @importFrom smwrQW summary.censReg plot.censReg censReg as.lcens
 
   make.plots <- FALSE
   if (!is.null(plot.dir)) {make.plots <- TRUE}

@@ -9,7 +9,7 @@ clean_BCs(BCs, BC.code6.remflg = F, max.BC.oneval.frac = 0.5, BC_suffix,
 }
 \arguments{
 \item{BCs}{A data frame of basin characteristics from
-\link{\code{winnow_BCs}}.}
+\code{\link{winnow_BCs}}.}
 
 \item{BC.code6.remflg}{(optional)  A logical flag that indicates whether or
 not variables derived from a non-calibrated hydrologic model will be removed.
@@ -35,15 +35,17 @@ removing unncessary or not-useful variables.
 }
 \details{
 "Cleans" basin characteristics (BCs) by:
-\item{1.}{Removing BCs that are cannot be used because they are non-numeric
+\itemize{
+\item{1.}{\itemize{Removing BCs that are cannot be used because they are non-numeric
 or, according to current thinking, should not be used because they:
 \item{a)}{measure hydrologic modifications such as dams or land development}
 \item{b)}{use NHD or TIGER roads which are spatially non-uniform
 in their "resolution"}
 \item{c)}{use measured streamflow (e.g, kriged streamflow statistics or
 calibrated model output)}
-\item{d)}{optionally, BCs based on non-calibrated hydrologic models}}
+\item{d)}{optionally, BCs based on non-calibrated hydrologic models}}}
 \item{2.}{Removing BCs that have a large fraction, whose value is given by
 \code{max.BC.oneval.frac},of values that are the same.}
+}
 }
 

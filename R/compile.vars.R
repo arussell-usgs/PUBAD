@@ -2,10 +2,10 @@
 #'
 #' @description
 #' The function \code{compile.vars} takes output from
-#' \link{\code{compute.leaps.for}} and compiles the candidate models across
+#' \code{\link{compute.leaps.for}} and compiles the candidate models across
 #' specified quantiles and regimes.
 #'
-#' @param leaps_list Output from \link{\code{compute.leaps.for}}
+#' @param leaps_list Output from \code{\link{compute.leaps.for}}
 #' @param nvmax (optional)  The maximum number of variables that will be
 #' considered in a regression.  The default is \code{6}.
 #' @param nb (optional) The maximum number of models subsetted.

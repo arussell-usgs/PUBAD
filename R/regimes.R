@@ -5,7 +5,7 @@
 #' into several regimes, if appropriate.
 #'
 #' @param unfilled_FDCs A matrix of the raw FDC quantiles for each site.
-#' This is derived from the output of \link{\code{calcEmpFDCs}}.
+#' This is derived from the output of \code{\link{calcEmpFDCs}}.
 #' @param zero_val (optional)  The value to which zeroes or negative quantiles
 #' will be set to.  The default is \code{0.001}.
 #'
@@ -18,6 +18,7 @@
 #' \item{cvrmse}{The coefficient of variation of the root-mean-squared error.}
 #' \item{nrmse}{Normalized root-mean-squared error.}
 #'@export
+#'@import pastecs
 regimes = function(unfilled_FDCs,zero_val=0.001){
 
   # Function orginially designed by Thomas M. Over and
@@ -25,6 +26,8 @@ regimes = function(unfilled_FDCs,zero_val=0.001){
   # Modified by William Farmer, 09 October 2015.
   #     Re-written to prevent writing key files; returns output instead.
 
+
+  # @importFrom pastecs turnpoints
 
   gages = colnames(unfilled_FDCs)
   probs <- as.double(row.names(empFDCs.all))

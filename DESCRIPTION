@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("William", "Farmer", , "wfarmer@usgs.gov", role="cre")
 Description: Replicates methods of USGS SIR 2014-5231
 Depends: R (>= 3.1.2)
-License: What license is it under?
+License: GPL (>=2)
 LazyData: true
 Imports: dataRetrieval,
     zoo,
@@ -20,4 +20,5 @@ Imports: dataRetrieval,
     leaps,
     faraway,
     survival,
-    pastecs
+    pastecs,
+    smwrStats

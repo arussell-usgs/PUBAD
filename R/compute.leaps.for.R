@@ -7,14 +7,14 @@
 #' a parallel \code{for} loop.
 #'
 #' @param unfilled_FDCs A matrix of the raw FDC quantiles for each site.
-#' This is derived from the output of \link{\code{calcEmpFDCs}}.
+#' This is derived from the output of \code{\link{calcEmpFDCs}}.
 #' @param filled_FDCs A matrix of the censor-filled FDC quantiles
-#' for each site.  This is derived from the output of \link{\code{calcEmpFDCs}}.
+#' for each site.  This is derived from the output of \code{\link{calcEmpFDCs}}.
 #' @param comp.wys A vector indicating how many complete water years
 #' were present for each site.  This is derived from the output of
-#' \link{\code{calcEmpFDCs}}.
+#' \code{\link{calcEmpFDCs}}.
 #' @param expl A data frame of the potential explanatory variables,
-#' derived from the output of \link{\code{getBasinChar}}.
+#' derived from the output of \code{\link{getBasinChar}}.
 #' @param WY.lim (optional)  The minimum number of water years required to be
 #'  included in the formation of regional regressions.  Only reference-quality
 #'  sites with at least this many complete water years will be used.
@@ -35,24 +35,31 @@
 #'
 #' @details
 #' This function creates and ranks regression models. It runs regsubsets on
-#' the filled FDCs, and then uses those models in \link{\code{censReg}} on the
+#' the filled FDCs, and then uses those models in \code{\link{censReg}} on the
 #' unfilled FDCs. All of the FDCs are transformed using the common logarithm.
 #' Any model with a variable that has a VIF higher than the user defined
 #' limit \code{max.VIF} will be dropped. The models are automatically ranked
 #' by regsubsets' weighted least-sqaures method, but the reported R^2 and BIC
-#' are calculated from \link{\code{censReg}}.
+#' are calculated from \code{\link{censReg}}.
 #'
 #' @return A list of lists, one for each quantile, with each of those
 #' containing one array of models per variable level. The models are
 #' automatically ranked by regsubsets' weighted least-sqaures method,
-#' but the reported R^2 and BIC are calculated from \link{\code{censReg}}.
+#' but the reported R^2 and BIC are calculated from \code{\link{censReg}}.
 #'@export
+#'@import leaps
+#'@import smwrStats
+#'@import smwrQW
 compute.leaps.for=function(unfilled_FDCs,filled_FDCs,comp.wys,
   expl,WY.lim=10,zero.val=0.001, cens_level=.005,
   max.VIF=10, nvmax=6, nb=3, plunge.ahead=T){
 
   # Function orginially designed by Thomas M. Over and Mike Olsen, 03 July 2015.
   # Modified by William Farmer, 06 July 2015.
+
+  # @importFrom leaps regsubsets
+  # @importFrom smwrStats vif
+  # @importFrom smwrQW censReg summary.censReg
 
   dep = unfilled_FDCs
   dep = t(dep)
@@ -118,14 +125,14 @@ compute.leaps.for=function(unfilled_FDCs,filled_FDCs,comp.wys,
           weights = comp.wys/mean(comp.wys))
         r_2=summary(model)$R2
 
-        if (length(which(smwrStats::vif(model)>max.VIF)) == 0){
+        if (length(which(vif(model)>max.VIF)) == 0){
           out = cbind(out, rep('', length(out[,1])))
           out[which(out[,1]%in%names(which(w[[k]] == TRUE))==TRUE),
             length(out[1,])] = coef(model) #coeffs
           out[(which(out[,1]%in%names(which(w[[k]] == TRUE))==TRUE)+1),
             length(out[1,])] = sqrt(diag(vcov(model))) #SE
           out[(which(out[,1]%in%names(which(w[[k]] == TRUE))==TRUE)+2),
-            length(out[1,])] = c(" ", smwrStats::vif(model)) #VIF
+            length(out[1,])] = c(" ", vif(model)) #VIF
           out[2:3,length(out[1,])] = c(r_2, AIC(model,
             k = log(length(dep[,1])))) #R^2, BIC
         }
@@ -137,14 +144,14 @@ compute.leaps.for=function(unfilled_FDCs,filled_FDCs,comp.wys,
             weights = comp.wys/mean(comp.wys))
           r_2=summary(model)$R2
 
-          if (length(which(smwrStats::vif(model)>max.VIF)) == 0){
+          if (length(which(vif(model)>max.VIF)) == 0){
             out = cbind(out, rep('', length(out[,1])))
             out[which(out[,1]%in%names(which(w[[k]][j,] == TRUE))==TRUE),
               length(out[1,])] = coef(model) #coeffs
             out[(which(out[,1]%in%names(which(w[[k]][j,] == TRUE))==TRUE)+1),
               length(out[1,])] = sqrt(diag(vcov(model))) #SE
             out[(which(out[,1]%in%names(which(w[[k]][j,] == TRUE))==TRUE)+2),
-              length(out[1,])] = c(" ", smwrStats::vif(model)) #VIF
+              length(out[1,])] = c(" ", vif(model)) #VIF
             out[2:3,length(out[1,])] = c(r_2, AIC(model,
               k = log(length(dep[,1])))) #R^2, BIC
           }

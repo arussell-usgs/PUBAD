@@ -38,16 +38,16 @@ is \code{FALSE}.}
 A list of several elements:
 \item{PerfMat}{A data frame of single-value performance metrics for each
 target location.  See details.}
-\item{CumDistErr}{A list of two elements:
+\item{CumDistErr}{\itemize{A list of two elements:
 \item{Levels}{The input \code{ErrLevs}.}
 \item{CumFreq}{A matrix summarizing the quantiles of the absolute percent
-errors at each site.}}
-\item{ErrAlongFDC}{A list of several elements:
+errors at each site.}}}
+\item{ErrAlongFDC}{\itemize{A list of several elements:
 \item{bins}{The input \code{bins}.}
 \item{centers}{The plotting centers of each bin.}
 \item{meanErr}{The mean percent error for each bin for each target location.}
 \item{medianErr}{The median percent error for each bin for each target
-location.}}
+location.}}}
 }
 \description{
 The function \code{analyzeResult} conducts a first level analysis of
@@ -57,7 +57,7 @@ estimated time series.
 The single-value performance metric calcuated include: The Nash-Sutcliffe
 efficieny of daily streamflow, the Nash-Sutcliffe efficiency of the
 logarithms of the daily streamflow, the root-mean-square error statistics
-from \link{\code{rmse.like}} for natural and logarithm streamflows, the
+from \code{\link{rmse.like}} for natural and logarithm streamflows, the
 average percent errors of the natural and logarithm streamflows and the
 Pearson and Spearman correlations between observed and simulated streamflow.
 }

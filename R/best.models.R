@@ -1,16 +1,16 @@
 #' Find top models for each flow regime.
 #'
-#' @description Takes output from \link{\code{compile.vars}} and determines
+#' @description Takes output from \code{\link{compile.vars}} and determines
 #' the best average model for each regime.
 #'
-#' @param top_n_list Output from \link{\code{compile.vars}}
+#' @param top_n_list Output from \code{\link{compile.vars}}
 #' @param unfilled_FDCs A matrix of the raw FDC quantiles for each site.
-#' This is derived from the output of \link{\code{calcEmpFDCs}}.
+#' This is derived from the output of \code{\link{calcEmpFDCs}}.
 #' @param expl A data frame of the potential explanatory variables,
-#' derived from the output of \link{\code{getBasinChar}}.
+#' derived from the output of \code{\link{getBasinChar}}.
 #' @param comp.wys A vector indicating how many complete water years
 #' were present for each site.  This is derived from the output of
-#' \link{\code{calcEmpFDCs}}.
+#' \code{\link{calcEmpFDCs}}.
 #' @param save.dir (optional) A directory to which results are to be saved.
 #' The default behavior \code{save.dir=NULL} does not save results.
 #' @param nvmax (optional)  The maximum number of variables that will be

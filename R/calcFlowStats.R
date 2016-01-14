@@ -19,10 +19,13 @@
 #'
 #' @return A named vector of streamflow statistics.
 #'@export
+#'@import zoo
 calcFlowStats <- function(Flow,Dates) {
   # Based on analysis from SIR 2014-5231 (circa 16 June 2014)
   # FDSS calculations based on code from Stacey Archfield
   # Function redeveloped by William Farmer, 09 June 2015
+
+  # @importFrom zoo as.Date rollmean aggregate.zoo
 
   # Find and index complete water years
   Wyrs <- min(as.double(substr(Dates,1,4))):max(as.double(substr(Dates,1,4)))

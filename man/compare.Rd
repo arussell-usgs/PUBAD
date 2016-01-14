@@ -21,7 +21,7 @@ compare(out, y, ranks, vars, names)
 Unclear.
 }
 \description{
-A sub-function used by \link{\code{compile.vars}}.
+A sub-function used by \code{\link{compile.vars}}.
 }
 \details{
 Lorem ipsum...

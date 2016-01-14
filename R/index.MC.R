@@ -43,12 +43,15 @@
 #' \item{index}{The input \code{index.gages}.}
 #' \item{target}{The input \code{target.gages}.}
 #'@export
+#'@import geoR
 index.MC <- function(
   index.gages,index.obs,index.baschar,
   target.gages,target.obs,target.baschar,
   method=c("pearson", "kendall", "spearman")) {
   # Based on code orginally developed by William Farmer, 02 February 2014
   # Revised by William Farmer, 03 June 2015
+
+  # @importFrom geoR variog variofit krige.conv
 
   # Reformat observations in to matrices
   target.obs.temp <- matrix(unlist(target.obs),ncol=length(target.obs))
