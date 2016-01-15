@@ -60,7 +60,7 @@ readCompileFlow<-function(listofgages,units=c("cfs","cms"),dataset_name="",
     # Filename to store flow data for all sites
     all_q_filenm<-paste(dataset_name,"_",units,".RData",sep="")
     # Remove any previous versions of this file so it
-    #   does append this new data to an existing file
+    #   does NOT append this new data to an existing file
     if (file.exists(all_q_filenm)){
       file.remove(all_q_filenm)
     }
