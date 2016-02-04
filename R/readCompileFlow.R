@@ -89,7 +89,13 @@ readCompileFlow<-function(listofgages,units=c("cfs","cms"),dataset_name="",
       if (length(qdatai)!=0) { #There is more than 1 measurement
 
         #Rename columns
-        colnames(qdatai)<-c("agency","site_no","datetime","approv","qval")
+        colnames(qdatai)[1:3]<-c("agency","site_no","datetime")
+        colnames(qdatai)[
+          which(is.element(colnames(qdatai),'X_00060_00003_cd'))] <-
+          "approv" # Correction added by William Farmer, 04 Feb 2016
+        colnames(qdatai)[
+          which(is.element(colnames(qdatai),'X_00060_00003'))] <-
+          "qval" # Correction added by William Farmer, 04 Feb 2016
         # Actual columns names from NWIS:
         #   agency_cd  site_no  Date  X_00060_00003_cd	X_00060_00003
 
