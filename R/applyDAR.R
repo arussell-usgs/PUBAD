@@ -105,11 +105,11 @@ applyDAR <- function(listofgages,startDate,endDate,
     index.obs <- Streamflow[ndx]
 
     # Determine Nearest Neighbor ####
-    NN.ranking <- index.NN(index.gages,index.baschar,
+    NN.ranking <- indexNN(index.gages,index.baschar,
       target.gages,target.baschar)
 
     # Determine Map Correlation ####
-    MC.ranking <- index.MC(index.gages,index.obs,index.baschar,
+    MC.ranking <- indexMC(index.gages,index.obs,index.baschar,
       target.gages,target.obs,target.baschar,
       method="pearson")
 

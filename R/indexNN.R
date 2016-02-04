@@ -1,8 +1,8 @@
-#index.NN----
+#indexNN----
 #' Rank the best index gages for each target site.
 #'
 #' @description
-#' The function \code{index.NN} returns the ranking of potential index sites,
+#' The function \code{indexNN} returns the ranking of potential index sites,
 #' by geographic proximity, for each target location.
 #'
 #' @param index.gages A numeric vector of the streamgage IDs to be used as
@@ -30,7 +30,7 @@
 #' \item{index}{The input \code{index.gages}.}
 #' \item{target}{The input \code{target.gages}.}
 #'@export
-index.NN <- function(index.gages,index.baschar,target.gages,target.baschar) {
+indexNN <- function(index.gages,index.baschar,target.gages,target.baschar) {
   # Function developed by William Farmer, 03 June 2015
 
   Dist.Mat <- matrix(NA,ncol=length(target.gages),nrow=length(index.gages))

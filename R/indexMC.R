@@ -1,9 +1,9 @@
 
-# index.MC ----
+# indexMC ----
 #' Rank the best index gages for each target site.
 #'
 #' @description
-#' The function \code{index.MC} returns the ranking of potential index sites,
+#' The function \code{indexMC} returns the ranking of potential index sites,
 #' by map correlation, for each target location.
 #'
 #' @param index.gages A numeric vector of the streamgage IDs to be used as
@@ -44,7 +44,7 @@
 #' \item{target}{The input \code{target.gages}.}
 #'@export
 #'@import geoR
-index.MC <- function(
+indexMC <- function(
   index.gages,index.obs,index.baschar,
   target.gages,target.obs,target.baschar,
   method=c("pearson", "kendall", "spearman")) {

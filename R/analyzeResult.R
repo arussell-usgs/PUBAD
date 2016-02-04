@@ -27,7 +27,7 @@
 #' The single-value performance metric calcuated include: The Nash-Sutcliffe
 #' efficieny of daily streamflow, the Nash-Sutcliffe efficiency of the
 #' logarithms of the daily streamflow, the root-mean-square error statistics
-#' from \code{\link{rmse.like}} for natural and logarithm streamflows, the
+#' from \code{\link{rmse_like}} for natural and logarithm streamflows, the
 #' average percent errors of the natural and logarithm streamflows and the
 #' Pearson and Spearman correlations between observed and simulated streamflow.
 #'
@@ -85,8 +85,8 @@ analyzeResult <- function(modelOutput,
   # Calculate basic performance metrics
   NSE <- nse(Obs,Est)
   NSEL <- nse(log(Obs),log(Est))
-  RMSE <- rmse.like(Obs,Est)
-  RMSEL <- rmse.like(log(Obs),log(Est))
+  RMSE <- rmse_like(Obs,Est)
+  RMSEL <- rmse_like(log(Obs),log(Est))
   PErr <- percent.error(Obs,Est)
   PErrL <- percent.error(log(Obs),log(Est))
   Corr <- obs.sim.corr(Obs,Est,methods=c("pearson","spearman"))

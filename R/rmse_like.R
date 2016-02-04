@@ -2,7 +2,7 @@
 #' Compute the Root-Mean-Squared Error Statistics
 #'
 #' @description
-#' The function \code{rmse.like} computes a series of statistics related to
+#' The function \code{rmse_like} computes a series of statistics related to
 #' the root-mean-squared error.
 #'
 #' @param Obs A matrix of observations.
@@ -21,7 +21,7 @@
 #' \item{cvrmse}{The coefficient of variation of the root-mean-squared error.}
 #' \item{nrmse}{Normalized root-mean-squared error.}
 #'@export
-rmse.like <- function(Obs,Est,MARGIN=2) {
+rmse_like <- function(Obs,Est,MARGIN=2) {
   # Function orginally developed by William Farmer, 27 May 2015
 
   # 26 August 2015, WHF: Added code to avoid observations that cause INF.

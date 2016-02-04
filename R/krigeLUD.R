@@ -158,7 +158,7 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
   }
 
   # Fill extrapolations with NN-DAR
-  NN.ranking <- index.NN(index.gages,index.baschar,target.gages,target.baschar)
+  NN.ranking <- indexNN(index.gages,index.baschar,target.gages,target.baschar)
   NNDAR <- estDAR(index.network=NN.ranking,index.baschar,
     target.baschar,index.obs,target.obs)
   for (i in 1:length(result)) {
