@@ -6,7 +6,7 @@
 \usage{
 krigeLUD(index.gages, index.baschar, index.obs, target.gages, target.baschar,
   target.obs, zero.val = NA, FixNug = F, FixKap = T, numbins = 10,
-  distperc = 1, CovMod = "spherical")
+  distperc = 1, CovMod = "spherical", pooled = FALSE, neighs = NA)
 }
 \arguments{
 \item{index.gages}{A numeric vector of the streamgage IDs to be used as
@@ -16,8 +16,7 @@ potential index sites.}
 \code{LNG_GAGE_UTM} and \code{DRAIN_SQKM} for each item of
 \code{index.gages}.}
 
-\item{index.obs}{A zoo object of the observed streamflows for each
-index gage.}
+\item{index.obs}{A zoo object of the observed streamflows for each index gage.}
 
 \item{target.gages}{A numeric vector of the streamgage IDs to be used as
 target sites.}
@@ -25,53 +24,57 @@ target sites.}
 \item{target.baschar}{Identical to \code{index.baschar} with respect to
 \code{target.gages}.}
 
-\item{target.obs}{A zoo object of the observed streamflows for each
-target gage.}
+\item{target.obs}{A zoo object of the observed streamflows for each target
+gage.}
 
 \item{zero.val}{(optional) A value to replace zeros.  The deafult is
 \code{NA}.}
 
-\item{FixNug}{(optional) A logical value indicating if the nugget value
-should be fixed.  The deafult is \code{FALSE}.}
+\item{FixNug}{(optional) A logical value indicating if the nugget value should
+be fixed.  The deafult is \code{FALSE}.}
 
-\item{FixKap}{(optional) A logical value indicating if the kappa value
-should be fixed.  The deafult is \code{TRUE}.}
+\item{FixKap}{(optional) A logical value indicating if the kappa value should
+be fixed.  The deafult is \code{TRUE}.}
 
-\item{numbins}{(optional) The number of bins to be used in each variogram.
-The deafult is \code{10}.}
+\item{numbins}{(optional) The number of bins to be used in each variogram. The
+deafult is \code{10}.}
 
 \item{distperc}{(optional) The percentile of the distances that should
 constrain the range of the empirical variograms.  The defaul is \code{1}.}
 
 \item{CovMod}{(optional) A character string indicating which theoretical
-variogram model should be used.  The deafult is the \code{'spherical'} model.}
+variogram model should be used.  The deafult is the \code{'spherical'}
+model.}
+
+\item{pooled}{(optional) A logical indicating if the parameters should be
+computed for every day or on a pooled variogram.  The default (\code{FALSE})
+calls for daily parameters.}
+
+\item{neighs}{(optional) An integer value specifying how many neighbors to
+ consider.  The default (\code{NA}) uses all relevant neighbors.}
 }
 \value{
-A list of two elements:
-\item{OKLUD}{\itemize{A list with each element corresponding to \code{target.gages},
-with each element of that list containg a data frame of
-\item{date}{The date of the row.}
-\item{est}{The estimated streamflow values for each day.}
-\item{est.LUD}{The raw kriged logarithm of the unit discharge for each day.}
-\item{est.LUD.var}{The variance of the raw kriged logarithm of the unit
-discharge for each day.}
-\item{extrap}{A logical indicating if the estimate was extrapolated using
-nearest-neighbor drainage area ratios.}
-\item{ratio}{If extrapolation was used, the ratio between target and index
-locations.}
-\item{indexflow}{If extrapolation was used, the index streamflow.}
-\item{index}{If extrapolation was used, the index ID.}
-\item{metric}{If extrapolation was used, the similarity metric between the
-index and target.}
-\item{obs}{The observed streamflow.}}}
-\item{varPar}{A data frame of daily variogram parameters.  These include
-covariance parameters, nugget values, kappa values, the variogram value,
-the covariance model, the maximum distance, the distance percentile and
-the number of bins.}
+A list of two elements: \item{OKLUD}{\itemize{A list with each element
+ corresponding to \code{target.gages}, with each element of that list
+ containg a data frame of \item{date}{The date of the row.} \item{est}{The
+ estimated streamflow values for each day.} \item{est.LUD}{The raw kriged
+ logarithm of the unit discharge for each day.} \item{est.LUD.var}{The
+ variance of the raw kriged logarithm of the unit discharge for each day.}
+ \item{extrap}{A logical indicating if the estimate was extrapolated using
+ nearest-neighbor drainage area ratios.} \item{ratio}{If extrapolation was
+ used, the ratio between target and index locations.} \item{indexflow}{If
+ extrapolation was used, the index streamflow.} \item{index}{If extrapolation
+ was used, the index ID.} \item{metric}{If extrapolation was used, the
+ similarity metric between the index and target.} \item{obs}{The observed
+ streamflow.}}} \item{varPar}{A data frame of daily variogram parameters.
+ These include covariance parameters, nugget values, kappa values, the
+ variogram value, the covariance model, the maximum distance, the distance
+ percentile and the number of bins.}
 }
 \description{
-The function \code{krigeLUD} uses daily variograms of the logarithm of the
-unit discharge to predict streamflows at the target locations.
+The function \code{krigeLUD} uses daily variograms of the
+ logarithm of the unit discharge to predict streamflows at the target
+ locations.
 }
 \details{
 Lorem ipsum...
