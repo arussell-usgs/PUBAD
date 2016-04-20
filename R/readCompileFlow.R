@@ -91,10 +91,10 @@ readCompileFlow<-function(listofgages,units=c("cfs","cms"),dataset_name="",
         #Rename columns
         colnames(qdatai)[1:3]<-c("agency","site_no","datetime")
         colnames(qdatai)[
-          which(is.element(colnames(qdatai),'X_00060_00003_cd'))] <-
+          which(grepl('00060_00003_cd',colnames(qdatai)))] <-
           "approv" # Correction added by William Farmer, 04 Feb 2016
         colnames(qdatai)[
-          which(is.element(colnames(qdatai),'X_00060_00003'))] <-
+          which(grepl('00060_00003',colnames(qdatai)))] <-
           "qval" # Correction added by William Farmer, 04 Feb 2016
         # Actual columns names from NWIS:
         #   agency_cd  site_no  Date  X_00060_00003_cd	X_00060_00003
