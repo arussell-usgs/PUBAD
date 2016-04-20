@@ -68,7 +68,20 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
   # @importFrom zoo index as.Date
   # @importFrom geoR variog variofit krige.conv
 
-  inputs <- as.list(match.call())
+  inputs <- list(index.gages=index.gages,
+    index.baschar=index.baschar,
+    index.obs=index.obs,
+    target.gages=target.gages,
+    target.baschar=target.baschar,
+    target.obs=target.obs,
+    zero.val=zero.val,
+    FixNug=FixNug,
+    FixKap=FixKap,
+    numbins=numbins,
+    distperc=distperc,
+    CovMod=CovMod,
+    pooled=pooled,
+    neighs=neighs)
 
   # Assume all TS are the same length... (with NA for missing)
   TargetDates <- index(target.obs[[1]])
@@ -268,15 +281,11 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
   }
 
   # Fill extrapolations with NN-DAR
-  check <- 0
+  NN.ranking <- indexNN(index.gages,index.baschar,target.gages,target.baschar)
+  NNDAR <- estDAR(index.network=NN.ranking,index.baschar,
+    target.baschar,index.obs,target.obs)
   for (i in 1:length(result)) {
     if (sum(result[[i]][,5])==0) {next}
-    check <- check + 1
-    if (check==1) {
-      NN.ranking <- indexNN(index.gages,index.baschar,target.gages,target.baschar)
-      NNDAR <- estDAR(index.network=NN.ranking,index.baschar,
-        target.baschar,index.obs,target.obs)
-    }
     result[[i]][,10] <- NNDAR[[i]]$obs
     ndx <- which(result[[i]][,5])
     result[[i]][ndx,c(2,6,7,8,9)] <- NNDAR[[i]][ndx,c(2,3,4,5,6)]
