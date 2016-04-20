@@ -156,7 +156,7 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
         gage.variogram$n.data/n
       PooledEmpVario$max.dist <- max(PooledEmpVario$max.dist,gage.variogram$max.dist)
       PooledEmpVario$n.data <- PooledEmpVario$n.data + gage.variogram$n.data
-      VarPar[j,10] <- gage.variogram$n.data
+      varPar[j,10] <- gage.variogram$n.data
     } else {
       if (sum(NDX)==1) {
         for (i in 1:length(result)) {
