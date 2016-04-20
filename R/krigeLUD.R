@@ -225,11 +225,11 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
     # Fit Model to Pooled Empirical Variogram
     pooledVar <- variofit(PooledEmpVario, cov.model = CovMod, messages=F,
       fix.nugget=FixNug,fix.kappa=FixKap)
-    varPar[j,1:9] <- c(pooledVar$cov.pars,pooledVar$nugget,
-      pooledVar$kappa,pooledVar$value,pooledVar$cov.model,
-      pooledVar$max.dist,distperc,numbins)
 
     for (j in 1:length(TargetDates)) {
+      varPar[j,1:9] <- c(pooledVar$cov.pars,pooledVar$nugget,
+        pooledVar$kappa,pooledVar$value,pooledVar$cov.model,
+        pooledVar$max.dist,distperc,numbins)
       SubSetLUD <- log(index.obs.temp[j,]/index.baschar$DRAIN_SQKM)
       SubSetLUD[is.infinite(SubSetLUD)] <- NA
       NDX <- !is.na(SubSetLUD)
