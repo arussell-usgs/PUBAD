@@ -100,7 +100,8 @@ estDAR <- function(index.network,index.baschar,
     }
     Data <- data.frame(Data)
     names(Data) <- c('date','est','ratio','indexflow','index','metric','obs')
-    Data$date <- as.Date(Data$date)
+    Data$date <- as.character(Data$date)
+    class(Data$date) <- 'Date'
     result[[i]] <- Data
     names(result)[[i]] <- Site.ID
   }

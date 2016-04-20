@@ -268,12 +268,16 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
   }
 
   # Fill extrapolations with NN-DAR
-  NN.ranking <- indexNN(index.gages,index.baschar,target.gages,target.baschar)
-  NNDAR <- estDAR(index.network=NN.ranking,index.baschar,
-    target.baschar,index.obs,target.obs)
+  check <- 0
   for (i in 1:length(result)) {
-    result[[i]][,10] <- NNDAR[[i]]$obs
     if (sum(result[[i]][,5])==0) {next}
+    check <- check + 1
+    if (check==1) {
+      NN.ranking <- indexNN(index.gages,index.baschar,target.gages,target.baschar)
+      NNDAR <- estDAR(index.network=NN.ranking,index.baschar,
+        target.baschar,index.obs,target.obs)
+    }
+    result[[i]][,10] <- NNDAR[[i]]$obs
     ndx <- which(result[[i]][,5])
     result[[i]][ndx,c(2,6,7,8,9)] <- NNDAR[[i]][ndx,c(2,3,4,5,6)]
   }
