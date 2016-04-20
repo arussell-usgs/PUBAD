@@ -122,6 +122,7 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
       breaks = seq(0,maxrange,len=numbins),messages=F)
     if (pooled) { # If pooled variogram, need skeleton variogram
       if (j==1) {
+        n <- sum(choose(colSums(!is.na(index.obs.temp)),2))
         PooledEmpVario <- list(
           u=gage.variogram$u,
           v=rep(0,length(gage.variogram$v)), # divide by bin size at end
