@@ -33,6 +33,6 @@ The function \code{getFlowStats} collects a wide array of streamflow
 statistics for observed and modeled streamflow time series.
 }
 \details{
-See \link{\code{calcFlowStats}} for a list of statistics calculated.
+See \code{\link{calcFlowStats}} for a list of statistics calculated.
 }
 

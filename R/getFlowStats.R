@@ -15,7 +15,7 @@
 #' The default is \code{0.01}.
 #'
 #' @details
-#' See \link{\code{calcFlowStats}} for a list of statistics calculated.
+#' See \code{\link{calcFlowStats}} for a list of statistics calculated.
 #'
 #' @return A list of two elements:
 #' \item{Obs}{A data frame of streamflow statistics derived from observed
