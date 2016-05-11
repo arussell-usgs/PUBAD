@@ -265,7 +265,7 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
   finalBCs.divisor = numeric(nBCs) #added 7/2/2015, TMO
   names(finalBCs.divisor) = names(finalBCs)[-1] #added 7/2/2015, TMO
   for (i in 2:ncol(finalBCs)) {
-    if (abs(transfCVs[i-1]) < center.minCV) {
+    if (ifelse(is.na(abs(transfCVs[i-1])),999,abs(transfCVs[i-1])) < center.minCV) {
       finalBCs[,i] = transfBCs[,i] - mean(transfBCs[,i])
       post.transfBCs.added[i-1] = -mean(transfBCs[,i])
     }
