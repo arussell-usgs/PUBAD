@@ -225,6 +225,9 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
     # Fit Model to Pooled Empirical Variogram
     pooledVar <- variofit(PooledEmpVario, cov.model = CovMod, messages=F,
       fix.nugget=FixNug,fix.kappa=FixKap)
+    if (pooledVar$nugget<0) {pooledVar$nugget<-0}
+    # correction for negative nuggets because
+    #   "micro.scale must be in the interval [0, nugget]"
 
     for (j in 1:length(TargetDates)) {
       varPar[j,1:9] <- c(pooledVar$cov.pars,pooledVar$nugget,
