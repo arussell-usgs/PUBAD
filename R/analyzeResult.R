@@ -46,14 +46,14 @@
 #' location.}}}
 #'@export
 analyzeResult <- function(modelOutput,
-  zero.val=0.001,cens.level=.005,min.obs=0.01,
-  ErrLevs=seq(0.01,1.5,0.01),
-  bins=seq(0,1,0.01),FlowStat=F) {
+                             zero.val=0.001,cens.level=.005,min.obs=0.01,
+                             ErrLevs=seq(0.01,1.5,0.01),
+                             bins=seq(0,1,0.01),FlowStat=F) {
   # Function developed by William Farmer, 08 June 2015
   # 13 October 2015: Corrected to screen for WYs. WHF.
 
   # Water Years
-  Dates <- modelOutput[[1]]$date
+  Dates <- as.character(modelOutput[[1]]$date) #modified 5/16/2016
   Year <- as.numeric(substr(Dates,1,4))
   Month <- as.numeric(substr(Dates,6,7))
   WY <- ifelse(Month>9,Year+1,Year)
@@ -92,7 +92,33 @@ analyzeResult <- function(modelOutput,
   Corr <- obs.sim.corr(Obs,Est,methods=c("pearson","spearman"))
   Perf <- data.frame(NSE,NSEL,RMSE,RMSEL,PErr,PErrL,Corr)
   names(Perf) <- c("nse","nsel","rmse","rmsne","nrmse","cvrmse","rmsel",
-    "rmsnel","nrmsel","cvrmsel","perr","perrl","cor.p","cor.s")
+                   "rmsnel","nrmsel","cvrmsel","perr","perrl","cor.p","cor.s")
+
+  #Added by TMO, 4/2016:
+  #1. Moment ratios
+  #Calculate mean and variance ratios (apparently each column is station)
+  #With default positive values of zero.val and min.obs and other cleaning operations,
+  #there should be no zeroes or NA values
+  #colVars function is from matrixStats package
+
+  #but there are NA values, code modified by AR 4/2016 to remove
+  MeanRat = colMeans(Est, na.rm=T) / colMeans(Obs, na.rm=T)
+  VarRat = colVars(Est, na.rm=T) / colVars(Obs, na.rm=T)
+  logMeanRat = colMeans(log10(Est), na.rm=T) / colMeans(log10(Obs), na.rm=T)
+  logVarRat = colVars(log10(Est), na.rm=T) / colVars(log10(Obs), na.rm=T)
+  MomRats = data.frame(cbind(MeanRat,VarRat,logMeanRat,logVarRat))
+
+  #2. Quantile ratios
+  #For now, probs and type are fixed and do not require extrapolation for stations
+  #with about two or more years of data (extrapolation uses min or max respectively)
+  qprobs = c(0.001, 0.01, 0.05, 0.10, 0.25, 0.5, 0.75, 0.90, 0.95, 0.99, 0.999)
+  qtype = 9 #plotting position formula with a=3/8
+  qRats = data.frame(matrix(nrow=ncol(Obs), ncol=length(qprobs)))
+  names(qRats) = qprobs
+  for (i in 1:ncol(Obs)) {
+    qRats[i,] = quantile(Est[,i], qprobs, na.rm=T, type=qtype) / quantile(Obs[,i], qprobs, na.rm=T, type=qtype)
+  }
+  #End of code added by TMO, 4/2016
 
   # Cumulative distribution of absolute percent errors
   dailyPErr <- (Est-Obs)/Obs
@@ -121,22 +147,24 @@ analyzeResult <- function(modelOutput,
   if (FlowStat) {
     # Get flow statistics
     FlowStats <- getFlowStats(modelOutput, zero.val=zero.val,
-      cens.level=cens.level, min.obs=min.obs)
+                              cens.level=cens.level, min.obs=min.obs)
     FlowStats.PErr <- (FlowStats$Est-FlowStats$Obs)/FlowStats$Obs
 
     # Compile output
     result <- list(PerfMat=Perf,
-      CumDistErr=list(Levels=ErrLevs,CumFreq=DisErr),
-      ErrAlongFDC=list(bins=bins,centers=centers,
-        meanErr=Binned.PErr.mean,medianErr=Binned.PErr.median),
-      FlowStats=list(Value=FlowStats,PerErr=FlowStats.PErr))
+                   MomRats=MomRats, qRats=qRats, #code added by TMO, 4/2016
+                   CumDistErr=list(Levels=ErrLevs,CumFreq=DisErr),
+                   ErrAlongFDC=list(bins=bins,centers=centers,
+                                    meanErr=Binned.PErr.mean,medianErr=Binned.PErr.median),
+                   FlowStats=list(Value=FlowStats,PerErr=FlowStats.PErr))
     return(result)
   }
 
   # Compile output
   result <- list(PerfMat=Perf,
-    CumDistErr=list(Levels=ErrLevs,CumFreq=DisErr),
-    ErrAlongFDC=list(bins=bins,centers=centers,
-      meanErr=Binned.PErr.mean,medianErr=Binned.PErr.median))
+                 MomRats=MomRats, qRats=qRats, #code added by TMO, 4/2016
+                 CumDistErr=list(Levels=ErrLevs,CumFreq=DisErr),
+                 ErrAlongFDC=list(bins=bins,centers=centers,
+                                  meanErr=Binned.PErr.mean,medianErr=Binned.PErr.median))
   return(result)
 }
