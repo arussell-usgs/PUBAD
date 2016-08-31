@@ -29,6 +29,7 @@
 #' The columns are in the order of \code{target.gages}.}
 #' \item{index}{The input \code{index.gages}.}
 #' \item{target}{The input \code{target.gages}.}
+#'@import geosphere
 #'@export
 indexNN <- function(index.gages,index.baschar,target.gages,target.baschar,
                     UTM=T, outlet=T, DAR.fact=0) {

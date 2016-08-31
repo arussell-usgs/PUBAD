@@ -4,7 +4,8 @@
 \alias{indexNN}
 \title{Rank the best index gages for each target site.}
 \usage{
-indexNN(index.gages, index.baschar, target.gages, target.baschar)
+indexNN(index.gages, index.baschar, target.gages, target.baschar, UTM = T,
+  outlet = T, DAR.fact = 0)
 }
 \arguments{
 \item{index.gages}{A numeric vector of the streamgage IDs to be used as
