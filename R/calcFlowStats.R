@@ -18,8 +18,10 @@
 #'  average streamflow.
 #'
 #' @return A named vector of streamflow statistics.
+#' @import zoo
+#' @import lmomco
 #'@export
-#'@import zoo
+
 calcFlowStats <- function(Flow,Dates) {
   # Based on analysis from SIR 2014-5231 (circa 16 June 2014)
   # FDSS calculations based on code from Stacey Archfield
