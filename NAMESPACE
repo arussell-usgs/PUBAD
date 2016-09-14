@@ -2,6 +2,7 @@
 
 export(analyzeResult)
 export(applyDAR)
+export(approxQ)
 export(best.models)
 export(calcEmpFDCs)
 export(calcFlowStats)
