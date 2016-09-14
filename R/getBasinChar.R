@@ -25,8 +25,11 @@
 #'
 #' @return The function returns a list as output.  This list contains:
 #' \item{DescBCs}{A data frame containing the station ID (\code{STAID}),
-#' drainage area (\code{DRAIN_SQKM}), and latitude and longitude
-#' (\code{LAT_GAGE_UTM} and \code{LNG_GAGE_UTM}) for the \code{listofgages}.}
+#' drainage area (\code{DRAIN_SQKM}), and latitude and longitude in Albers
+#' projection (\code{LAT_GAGE_UTM} and \code{LNG_GAGE_UTM})
+#' and decimal degrees (\code{LAT_GAGE} and \code{LNG_GAGE}) for the gage outlet
+#' and basin centroid (\code{LAT_CENT} and \code{LoNG_CENT})
+#' for the \code{listofgages}.}
 #' \item{AllBCs}{A data frame containing all the variables in the database.}
 #' \item{cleanBCs}{A data frame of basin characteristics screened to remove
 #' categorical data or variables with a large proportion of
@@ -48,7 +51,7 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
   # Function orginially designed by Stacey A. Archfield, 02 June 2015.
   # Modified by William Farmer, 03 June 2015.
   # Fused with code by Tom Over and Mike Olson, 30 June 2015.
-  #   Includes code to clean, winnow and transform variables.
+  #   Includes code to clean, winnow and transform basin characteristic variables.
 
   # Cut down to only sites requested.
   # NOTE: BasCharRaw is embedded in sysdata.rda
