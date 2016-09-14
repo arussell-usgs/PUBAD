@@ -80,7 +80,7 @@ approxP <- function(qts, fdc) {
     targetP[ndx] <- pnorm(m * log10(qts[ndx]) + b)
   }
   # extrapolate low-end p-values
-  ndx <- which(qts < min(fdc$p) & qts > 0 & is.na(targetP))
+  ndx <- which(qts < min(fdc$q) & qts > 0 & is.na(targetP))
   if (length(ndx)>0) {
     sorted <-
       sort.int(fdc$q, decreasing = FALSE, index.return = TRUE)$ix[c(1, 2)]
