@@ -41,10 +41,15 @@
 #'@export
 #'@import moments
 transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
-  # Function orginially designed by Thomas M. Over and Mike Olsen, 30 June 2015.
+  # Function originally designed by Tom Over and Mike Olson, 30 June 2015.
   # Modified by William Farmer, 30 June 2015.
   # Revised by TMO 02 July 2015, Implemented by WHF 06 July 2015
 
+  # Revised by TMO, 8/2016, to handle computation of transfCVs values
+  # in the case of zero mean more robustly (as indicated in comments in code)
+
+  # Modified by Amy Russell, 9/2016 to explicitly use moments package for
+  #  skewness function
   # @importFrom moments skewness
 
   #Compute number of BCs in input data frame
@@ -69,7 +74,7 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
   for (i in 1:nBCs) {
     origBC.sum_stats[1:6,i] = as.numeric(summary(BCs[,i+1]))
     origBC.sum_stats[7,i] = sd(BCs[,i+1])
-    origBC.sum_stats[9,i] = skewness(BCs[,i+1])
+    origBC.sum_stats[9,i] = moments:::skewness(BCs[,i+1])
     if (mean(BCs[,i+1])==0) {
       CVs[i] = NA
     } else {
@@ -98,7 +103,7 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
   for (i in 2:ncol(BCs)) {
     #Skewness of original values
     type.cnt = 1
-    BC_skews[type.cnt,i-1] = skewness(BCs[,i])
+    BC_skews[type.cnt,i-1] = moments:::skewness(BCs[,i])
 
     #Centered values
     type.cnt = 2
@@ -106,7 +111,7 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
       temp.BCs = BCs[,i] - mean(BCs[,i])
       BC_added[type.cnt,i-1] = -mean(BCs[,i])
     } else temp.BCs = BCs[,i]
-    BC_skews[type.cnt,i-1] = skewness(temp.BCs); BCs.center[,i] = temp.BCs
+    BC_skews[type.cnt,i-1] = moments:::skewness(temp.BCs); BCs.center[,i] = temp.BCs
 
     #NB: From here on out, all transformed values will
     #be based on centered values;
@@ -121,17 +126,17 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
       temp.BCs = BCs.center[,i] - min(BCs.center[,i])
       BC_added[3:8,i-1] = -min(BCs.center[,i])
     } else temp.BCs = BCs.center[,i]
-    type.cnt=3; BC_skews[type.cnt,i-1] = skewness(temp.BCs^(3/2))
+    type.cnt=3; BC_skews[type.cnt,i-1] = moments:::skewness(temp.BCs^(3/2))
     BCs.3over2[,i] = temp.BCs^(3/2)
-    type.cnt=4; BC_skews[type.cnt,i-1] = skewness(temp.BCs^(2/3))
+    type.cnt=4; BC_skews[type.cnt,i-1] = moments:::skewness(temp.BCs^(2/3))
     BCs.2over3[,i] = temp.BCs^(2/3)
-    type.cnt=5; BC_skews[type.cnt,i-1] = skewness(temp.BCs^(1/2))
+    type.cnt=5; BC_skews[type.cnt,i-1] = moments:::skewness(temp.BCs^(1/2))
     BCs.1over2[,i] = temp.BCs^(1/2)
-    type.cnt=6; BC_skews[type.cnt,i-1] = skewness(temp.BCs^(1/3))
+    type.cnt=6; BC_skews[type.cnt,i-1] = moments:::skewness(temp.BCs^(1/3))
     BCs.1over3[,i] = temp.BCs^(1/3)
-    type.cnt=7; BC_skews[type.cnt,i-1] = skewness(temp.BCs^(1/5))
+    type.cnt=7; BC_skews[type.cnt,i-1] = moments:::skewness(temp.BCs^(1/5))
     BCs.1over5[,i] = temp.BCs^(1/5)
-    type.cnt=8; BC_skews[type.cnt,i-1] = skewness(temp.BCs^(1/10))
+    type.cnt=8; BC_skews[type.cnt,i-1] = moments:::skewness(temp.BCs^(1/10))
     BCs.1over10[,i] = temp.BCs^(1/10)
 
     #log10-transform: To take log10 transform, need to make all values positive
@@ -148,7 +153,7 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
       BC_added[type.cnt,i-1] = 0.1*min(temp.BCs[temp.BCs>0])
       temp.BCs = temp.BCs + BC_added[type.cnt,i-1]
     } else temp.BCs = BCs.center[,i]
-    BC_skews[type.cnt,i-1] = skewness(log10(temp.BCs))
+    BC_skews[type.cnt,i-1] = moments:::skewness(log10(temp.BCs))
     BCs.log10[,i] = log10(temp.BCs)
 
     #powers 2 and 10: To preserve ordering,
@@ -164,8 +169,8 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
       BCs.power2[noneg.subs,i] = temp.BCs[noneg.subs]^2
       BCs.power10[noneg.subs,i] = temp.BCs[noneg.subs]^10
     }
-    type.cnt=10; BC_skews[type.cnt,i-1] = skewness(BCs.power2[,i])
-    type.cnt=11; BC_skews[type.cnt,i-1] = skewness(BCs.power10[,i])
+    type.cnt=10; BC_skews[type.cnt,i-1] = moments:::skewness(BCs.power2[,i])
+    type.cnt=11; BC_skews[type.cnt,i-1] = moments:::skewness(BCs.power10[,i])
 
     #powers 3, 5, and exp10 values (meaning values used as exponent of 10):
     #no special handling needed
@@ -173,9 +178,9 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
     BCs.power3[,i] = temp.BCs^3
     BCs.power5[,i] = temp.BCs^5
     BCs.exp10[,i] = 10^temp.BCs
-    type.cnt=12; BC_skews[type.cnt,i-1] = skewness(BCs.power3[,i])
-    type.cnt=13; BC_skews[type.cnt,i-1] = skewness(BCs.power5[,i])
-    type.cnt=14; BC_skews[type.cnt,i-1] = skewness(BCs.exp10[,i])
+    type.cnt=12; BC_skews[type.cnt,i-1] = moments:::skewness(BCs.power3[,i])
+    type.cnt=13; BC_skews[type.cnt,i-1] = moments:::skewness(BCs.power5[,i])
+    type.cnt=14; BC_skews[type.cnt,i-1] = moments:::skewness(BCs.exp10[,i])
 
     #Add BC.center BC_added values to subsequent types
     for (type.cnt in 3:14) {
@@ -250,9 +255,12 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
   for (i in 1:nBCs) {
     transfBC.sum_stats[1:6,i] = as.numeric(summary(transfBCs[,i+1]))
     transfBC.sum_stats[7,i] = sd(transfBCs[,i+1])
-    transfBC.sum_stats[9,i] = skewness(transfBCs[,i+1])
-    if (mean(transfBCs[,i+1])==0) transfCVs[i] = NA else
-      transfCVs[i] = sd(transfBCs[,i+1])/mean(transfBCs[,i+1])
+    transfBC.sum_stats[9,i] = moments:::skewness(transfBCs[,i+1])
+    # if (mean(transfBCs[,i+1])==0) transfCVs[i] = NA else
+    #   transfCVs[i] = sd(transfBCs[,i+1])/mean(transfBCs[,i+1])
+    #Because transfCVs values are needed later, it seems better to allow them to take
+    #Inf values as will happen if the mean is zero - TMO, 8/2016
+    transfCVs[i] = sd(transfBCs[,i+1])/mean(transfBCs[,i+1])
     transfBC.sum_stats[8,i] = transfCVs[i]
   }
 
@@ -265,7 +273,7 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
   finalBCs.divisor = numeric(nBCs) #added 7/2/2015, TMO
   names(finalBCs.divisor) = names(finalBCs)[-1] #added 7/2/2015, TMO
   for (i in 2:ncol(finalBCs)) {
-    if (ifelse(is.na(abs(transfCVs[i-1])),999,abs(transfCVs[i-1])) < center.minCV) {
+    if (abs(transfCVs[i-1]) < center.minCV) {
       finalBCs[,i] = transfBCs[,i] - mean(transfBCs[,i])
       post.transfBCs.added[i-1] = -mean(transfBCs[,i])
     }
@@ -292,8 +300,10 @@ transform_BCs <- function(BCs, debug.flg=F, BC_sfx="", destination="") {
   for (i in 1:nBCs) {
     finalBC.sum_stats[1:6,i] = as.numeric(summary(finalBCs[,i+1]))
     finalBC.sum_stats[7,i] = sd(finalBCs[,i+1])
-    if (mean(finalBCs[,i+1])==0) finalCVs[i] = NA else
-      finalCVs[i] = sd(finalBCs[,i+1])/mean(finalBCs[,i+1])
+    # if (mean(finalBCs[,i+1])==0) finalCVs[i] = NA else
+    # Might as well let finalCVs take the value "Inf" as should happen if mean is zero
+    # TMO, 8/2016
+    finalCVs[i] = sd(finalBCs[,i+1])/mean(finalBCs[,i+1])
     finalBC.sum_stats[8,i] = finalCVs[i]
   }
 
