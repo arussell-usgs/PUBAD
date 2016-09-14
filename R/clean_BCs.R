@@ -3,7 +3,7 @@
 #'
 #' @description
 #' The function \code{clean_BCs} cleans the raw basin characteristics by
-#' removing unncessary or not-useful variables.
+#' removing unnecessary or not-useful variables.
 #'
 #' @param BCs A data frame of basin characteristics from
 #' \code{\link{winnow_BCs}}.
@@ -18,6 +18,10 @@
 #' @param destination (optional) A character string specfying a file name,
 #' without an extension, to which to write intermediate results.  The default
 #' is not to save results.
+#' @param keepWB (optional) A logical flag that indicates whether or not
+#'   Water Balance model variables, named "WB5100...", are kept even if a large
+#'   fraction of the values are the same in order to later compute their phase.
+#'   The default, \code{FALSE} requests that these not be retained.
 #'
 #' @details
 #' "Cleans" basin characteristics (BCs) by:
@@ -37,14 +41,18 @@
 #' @return A matrix of basin characteristics, with several removed.
 #'@export
 clean_BCs <- function(BCs,BC.code6.remflg=F, max.BC.oneval.frac = 0.5,
-  BC_suffix, destination="") {
-  # Function orginially designed by Thomas M. Over and Mike Olsen, 30 June 2015.
+  BC_suffix, destination="", keepWB=F) {
+  # Function originally designed by Tom Over and Mike Olson, 30 June 2015.
   # Modified by William Farmer, 30 June 2015.
+  # Revised by TMO, 7/2016 and Modified by Amy Russell, 9/2016
+  #   to give option to keep Water Balance model variables (named "WB5100...")
+  #   so that their phase could be computed later in winnow_BCs; also fixed a couple cosmetic items
 
   class_col = which(names(BCs)=="CLASS")
   col_order = c(class_col,(1:ncol(BCs))[-class_col])
   BCs = BCs[,col_order]
 
+  #reading GAGESII.var_code_file commented out: GAGESII.var_codes now embedded in sysdata.rdata
   #GAGESII_BC_var_code_file <- file.path("Data","Raw",
   #  "selectedBCs.var_codes.csv")
   #Read in GAGES II variable code file
@@ -74,16 +82,27 @@ clean_BCs <- function(BCs,BC.code6.remflg=F, max.BC.oneval.frac = 0.5,
     uval.cnts = numeric(n.uvals)
     for (j in 1:n.uvals) uval.cnts[j] = sum(ranks==uniq.vals[j])
     BC.oneval.fracs[i] = max(uval.cnts)/nstatns
-    if (BC.oneval.fracs[i] > max.BC.oneval.frac) remove.cols = c(remove.cols,i)
+
+    # Added parameter keepWB to keep code6 (WB5100... Water Balance model discharge) variables
+    #  even if some have a large fraction of a common value (would be 0 in this case),
+    #  because after "winnowing" only the phase and the annual average will be retained -
+    #  TMO, 7/2016
+    if (keepWB==T){
+      if ((BC.oneval.fracs[i] > max.BC.oneval.frac) & (substr(names(keptBCs)[i],1,6)!="WB5100")) {
+        remove.cols = c(remove.cols,i)
+      }
+    } else {
+      if (BC.oneval.fracs[i] > max.BC.oneval.frac) remove.cols = c(remove.cols,i)
+    }
   }
   clean_BCs = keptBCs[,-remove.cols]
 
   if (destination!="") {
     if (BC.code6.remflg) code6_str = "rem_code6" else code6_str = "keep_code6"
-    write.csv(keptBCs,paste0(destinaiton,".keptBCs.",code6_str,".csv"))
-    write.csv(remBC_frame,paste0(destinaiton,".remBC_names.",
-      code6_str,".csv"),row.names=F)
-    write.csv(clean_BCs,paste(destinaiton,".clean_BCs.",BC_suffix,".csv"))
+    write.csv(keptBCs,paste0(destination,".keptBCs.",code6_str,".csv"))
+    write.csv(remBC_frame,paste0(destination,".remBC_names.",
+                                 code6_str,".csv"),row.names=F)
+    write.csv(clean_BCs,paste(destination,".clean_BCs.",BC_suffix,".csv"))
     sink(paste(destination,".cleaned_BCs.",BC_suffix,".txt"))
     for (i in 1:length(remove.cols)) cat(names(keptBCs)[remove.cols[i]],"\n")
     sink()
