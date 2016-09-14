@@ -44,6 +44,7 @@
 #' \item{meanErr}{The mean percent error for each bin for each target location.}
 #' \item{medianErr}{The median percent error for each bin for each target
 #' location.}}}
+#' @import matrixStats
 #'@export
 analyzeResult <- function(modelOutput,
                              zero.val=0.001,cens.level=.005,min.obs=0.01,
