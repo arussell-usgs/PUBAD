@@ -5,7 +5,7 @@
 \title{Clean out raw basin characteristics.}
 \usage{
 clean_BCs(BCs, BC.code6.remflg = F, max.BC.oneval.frac = 0.5, BC_suffix,
-  destination = "")
+  destination = "", keepWB = F)
 }
 \arguments{
 \item{BCs}{A data frame of basin characteristics from
@@ -25,13 +25,18 @@ onto saved file names.}
 \item{destination}{(optional) A character string specfying a file name,
 without an extension, to which to write intermediate results.  The default
 is not to save results.}
+
+\item{keepWB}{(optional) A logical flag that indicates whether or not
+Water Balance model variables, named "WB5100...", are kept even if a large
+fraction of the values are the same in order to later compute their phase.
+The default, \code{FALSE} requests that these not be retained.}
 }
 \value{
 A matrix of basin characteristics, with several removed.
 }
 \description{
 The function \code{clean_BCs} cleans the raw basin characteristics by
-removing unncessary or not-useful variables.
+removing unnecessary or not-useful variables.
 }
 \details{
 "Cleans" basin characteristics (BCs) by:
