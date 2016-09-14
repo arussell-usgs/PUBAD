@@ -2,6 +2,7 @@
 
 export(analyzeResult)
 export(applyDAR)
+export(approxP)
 export(approxQ)
 export(best.models)
 export(calcEmpFDCs)
