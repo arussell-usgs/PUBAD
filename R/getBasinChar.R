@@ -47,7 +47,7 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
   BC.code6.remflg=F,max.BC.oneval.frac=0.5,debug.flg=F) {
   # Function orginially designed by Stacey A. Archfield, 02 June 2015.
   # Modified by William Farmer, 03 June 2015.
-  # Fused with code by Thomas Over and Mike Olsen, 30 June 2015.
+  # Fused with code by Tom Over and Mike Olson, 30 June 2015.
   #   Includes code to clean, winnow and transform variables.
 
   # Cut down to only sites requested.
@@ -58,21 +58,26 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
   # Save all variables
   if (destination!="") {
     silent <- TRUE
-    destination <- paste0(destinaiton,".AllVar.RData")
+    destination <- paste0(destination,".AllVar.RData")
     save(list=c("BasChar"),file=destination,compress="bzip2")
   }
   row.names(BasChar) <- NULL
 
   # Reserve standard variables:
-  DescChars <- BasChar[,which(is.element(names(BasChar),c("STAID","DRAIN_SQKM",
-    "LAT_GAGE_UTM","LNG_GAGE_UTM")))]
+  # Added lat/lon of basin centroid and outlet to list of standard variables
+  # TMO, 7/2016
+  DescChars <- BasChar[,which(is.element(names(BasChar),
+                                         c("STAID","DRAIN_SQKM",
+                                           "LAT_GAGE_UTM","LNG_GAGE_UTM",
+                                           "LAT_GAGE", "LNG_GAGE",
+                                           "LAT_CENT", "LONG_CENT")))]
 
   row.names(BasChar) <- BasChar$STAID
 
   BasChar <- BasChar[,-which(is.element(names(BasChar),
     c("LAT_GAGE_UTM","LNG_GAGE_UTM","STAID")))]
 
-  ## CODE DEVELOPED BY THOMAS AND MIKE
+  ## CODE DEVELOPED BY TOM AND MIKE
 
   #Create suffix to be used (when silent = F) as part of output files
   if (BC.code6.remflg) code6_str = "rem_code6" else code6_str = "keep_code6"
@@ -98,7 +103,7 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
   #Correlation matrix of BCs, also to help determine
   #redundant BCs.
 
-  ## END CODE DEVELOPED BY THOMAS AND MIKE
+  ## END CODE DEVELOPED BY TOM AND MIKE
 
   # Cut down to only variables requested.
   if (!is.null(basinChars)) {
