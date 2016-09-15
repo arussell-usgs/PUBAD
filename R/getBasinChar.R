@@ -19,6 +19,9 @@
 #' then the BC will be removed.  The default is \code{0.5}.
 #' @param debug.flg (optional) A logical indicating if verbose outputs are
 #' required from variable transformation.  The default is \code{FALSE}.
+#' @param keepWB (optional) A logical passed to
+#' \code{\link{clean_BCs}} that indicates whether or not
+#' Water Balance model variables are retained. The default is \code{FALSE}.
 #'
 #' @details
 #' Lorem ipsum...
@@ -47,11 +50,13 @@
 #' }
 #'@export
 getBasinChar <- function(listofgages,basinChars=NULL,destination="",
-  BC.code6.remflg=F,max.BC.oneval.frac=0.5,debug.flg=F) {
+  BC.code6.remflg=F,max.BC.oneval.frac=0.5,debug.flg=F, keepWB=F) {
   # Function orginially designed by Stacey A. Archfield, 02 June 2015.
   # Modified by William Farmer, 03 June 2015.
   # Fused with code by Tom Over and Mike Olson, 30 June 2015.
   #   Includes code to clean, winnow and transform basin characteristic variables.
+  # Modified by TMO and Amy Russell, 9/2016, to pass parameter keepWB to
+  #   clean_BCs function
 
   # Cut down to only sites requested.
   # NOTE: BasCharRaw is embedded in sysdata.rda
@@ -87,7 +92,7 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
   BC_suffix = paste(code6_str,".max_oneval_frac",max.BC.oneval.frac,sep="")
 
   cleanBCs = clean_BCs(BasChar, BC.code6.remflg, max.BC.oneval.frac,
-    BC_suffix, destination)
+    BC_suffix, destination, keepWB=keepWB)
 
   winnowedBCs = winnow_BCs(cleanBCs, BC.code6.remflg)
 
