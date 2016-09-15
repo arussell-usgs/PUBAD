@@ -5,7 +5,8 @@
 \title{Collect and process basin characteristics for required basins.}
 \usage{
 getBasinChar(listofgages, basinChars = NULL, destination = "",
-  BC.code6.remflg = F, max.BC.oneval.frac = 0.5, debug.flg = F)
+  BC.code6.remflg = F, max.BC.oneval.frac = 0.5, debug.flg = F,
+  keepWB = F)
 }
 \arguments{
 \item{listofgages}{Dataframe of gage numbers (as a character vector)}
@@ -27,6 +28,10 @@ then the BC will be removed.  The default is \code{0.5}.}
 
 \item{debug.flg}{(optional) A logical indicating if verbose outputs are
 required from variable transformation.  The default is \code{FALSE}.}
+
+\item{keepWB}{(optional) A logical passed to
+\code{\link{clean_BCs}} that indicates whether or not
+Water Balance model variables are retained. The default is \code{FALSE}.}
 }
 \value{
 The function returns a list as output.  This list contains:
