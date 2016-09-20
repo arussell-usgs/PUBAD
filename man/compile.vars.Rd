@@ -4,38 +4,32 @@
 \alias{compile.vars}
 \title{Compile models across quantiles and regimes}
 \usage{
-compile.vars(leaps_list, nvmax = 6, n = 20, range = list(low_range =
-  c(1:9), med_range = c(10:19), high_range = c(20:27)), regimes = list(lowflow
-  = c("0.0002", "0.0005", "0.001", "0.002", "0.005", "0.01", "0.02", "0.05",
-  "0.1"), medflow = c("0.2", "0.25", "0.3", "0.4", "0.5", "0.6", "0.7", "0.75",
-  "0.8", "0.9"), highflow = c("0.95", "0.98", "0.99", "0.995", "0.998", "0.999",
-  "0.9995", "0.9998")), unfilled_FDCs = NA)
+compile.vars(leaps_list, nvmax, n, regimes = list(lowflow = c("0.0002",
+  "0.0005", "0.001", "0.002", "0.005", "0.01", "0.02", "0.05", "0.1"), medflow =
+  c("0.2", "0.25", "0.3", "0.4", "0.5", "0.6", "0.7", "0.75", "0.8", "0.9"),
+  highflow = c("0.95", "0.98", "0.99", "0.995", "0.998", "0.999", "0.9995",
+  "0.9998")), unfilled_FDCs = NA)
 }
 \arguments{
 \item{leaps_list}{Output from \code{\link{compute.leaps.for}}}
 
-\item{nvmax}{(optional)  The maximum number of variables that will be
-considered in a regression.  The default is \code{6}.}
+\item{nvmax}{The maximum number of variables that will be
+considered in a regression.  Prior to 9/2016, the default was \code{6}.}
 
-\item{range}{A list of three elements (\code{names(range) = c('low_range',
-'med_range','high_range')}), where each element is a vector of indices
-specify the quantiles belonging to each regime.  The default is \code{
-list(low_range=c(1:9), med_range=c(10:19), high_range=c(20:27))}.}
+\item{n}{The maximum number of models subsetted.
+Prior to 9/2016, the default was \code{20}.}
 
-\item{regimes}{(optional) A list of three elements (\code{names(regimes) =
+\item{regimes}{(optional) A list of two or more elements (\code{names(regimes) =
 c('lowflow','medflow','highflow')}), where each element is a character
 vector indicating the frequencies of each quantile. The default is \code{
 list(lowflow = c("0.0002","0.0005","0.001","0.002","0.005","0.01","0.02",
 "0.05","0.1"),medflow = c("0.2", "0.25", "0.3", "0.4", "0.5","0.6", "0.7",
  "0.75", "0.8", "0.9"),highflow = c("0.95", "0.98", "0.99", "0.995",
  "0.998", "0.999", "0.9995", "0.9998"))}.}
-
-\item{nb}{(optional) The maximum number of models subsetted.
-The deafult is \code{20}.}
 }
 \value{
 A list ranking all models across the number of variables
-for each regime.
+for each regime. Higher ranks are better.
 }
 \description{
 The function \code{compile.vars} takes output from

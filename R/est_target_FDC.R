@@ -3,8 +3,9 @@
 #' @description
 #' A sub-function for construction of FDC for an ungaged site.
 #'
-#' @param best.mods
-#' @param regSelect
+#' @param best.mods A list of the best models for each flow regime.
+#' @param regSelect Statistic used to select best model. The options
+#' are \code{adjR2} or \code{AIC}.
 #' @param target.empFDC.filled
 #' This is derived from the output of \code{\link{calcEmpFDCs}}.
 #' @param target.regvar
@@ -15,14 +16,13 @@
 #'
 #' @return Unclear.
 #'@export
-#'@import
 #'
-#'# Estimate ungauged (target) FDC ####
-# Adapted by Tom Over, 7/2016, from code in runGageList.R written by Will Farmer
-
+#'
 est_target_FDC <- function(best.mods, regSelect, target.empFDC.filled, target.regvar)
 
 {
+  # Estimate ungauged (target) FDC ####
+  # Adapted by Tom Over, 7/2016, from code in runGageList.R written by Will Farmer
 
   target.estFDC <- as.matrix(target.empFDC.filled)
   target.estFDC[] <- NA

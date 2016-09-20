@@ -4,11 +4,14 @@
 \alias{regimes}
 \title{Determine Optimal Regimes Along FDC}
 \usage{
-regimes(unfilled_FDCs, zero_val = 0.001)
+regimes(unfilled_FDCs, BCs, zero_val = 0.001)
 }
 \arguments{
 \item{unfilled_FDCs}{A matrix of the raw FDC quantiles for each site.
 This is derived from the output of \code{\link{calcEmpFDCs}}.}
+
+\item{BCs}{A data frame of basin characteristics for each site,
+derived from the output of \code{\link{getBasinChar}}.}
 
 \item{zero_val}{(optional)  The value to which zeroes or negative quantiles
 will be set to.  The default is \code{0.001}.}

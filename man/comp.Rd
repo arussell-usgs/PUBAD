@@ -4,11 +4,14 @@
 \alias{comp}
 \title{Compare the models with a specifc number of variables.}
 \usage{
-comp(flow, numvars, unfilled_FDCs, comp.wys, top_n_list, expl, WY.lim = 10,
-  zero.val = 0.001, cens_level = 0.005, n = 20, plot.dir = NULL)
+comp(regimes, regime_i, numvars, unfilled_FDCs, comp.wys, top_n_list, n, expl,
+  WY.lim = 10, zero.val = 0.001, cens_level = 0.005, plot.dir = NULL)
 }
 \arguments{
-\item{flow}{A character string indicating the name of the flow regime.}
+\item{regimes}{A list of flow regimes, where each element is a character
+vector indicating the frequencies of each quantile.}
+
+\item{regime_i}{The index to which flow regime is to be used.}
 
 \item{numvars}{The maximum number of variables considered in
 the regression.}
@@ -22,6 +25,9 @@ were present for each site.  This is derived from the output of
 
 \item{top_n_list}{Output from \code{\link{compile.vars}}}
 
+\item{n}{The maximum number of models subsetted.
+Prior to 9/2016, the default was \code{20}.}
+
 \item{expl}{A data frame of the potential explanatory variables,
 derived from the output of \code{\link{getBasinChar}}.}
 
@@ -34,10 +40,7 @@ The default is \code{10}.}
 will be set to.  The default is \code{0.001}.}
 
 \item{cens_level}{(optional)  The value establishing left censoring.
-The deafult is \code{0.005}.}
-
-\item{n}{(optional) The maximum number of models subsetted.
-The deafult is \code{20}.}
+The default is \code{0.005}.}
 
 \item{plot.dir}{A directory to which plots are to be saved.
 The default behavior \code{save.dir=NULL} does not create plots.}

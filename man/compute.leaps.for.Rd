@@ -4,9 +4,9 @@
 \alias{compute.leaps.for}
 \title{Determine Best Subsets Models}
 \usage{
-compute.leaps.for(unfilled_FDCs, filled_FDCs, comp.wys, expl, WY.lim = 10,
-  zero.val = 0.001, cens_level = 0.005, max.VIF = 10, nvmax = 6,
-  nb = 3, plunge.ahead = T)
+compute.leaps.for(unfilled_FDCs, filled_FDCs, comp.wys, expl, nvmax, nb,
+  WY.lim = 10, zero.val = 0.001, cens_level = 0.005, max.VIF = 10,
+  plunge.ahead = T, forced.BC = NULL)
 }
 \arguments{
 \item{unfilled_FDCs}{A matrix of the raw FDC quantiles for each site.
@@ -22,6 +22,13 @@ were present for each site.  This is derived from the output of
 \item{expl}{A data frame of the potential explanatory variables,
 derived from the output of \code{\link{getBasinChar}}.}
 
+\item{nvmax}{The maximum number of variables that will be
+considered in a regression.  When specifying this number, the user should
+take into consideration the number of sites. Prior to 9/2016 the default was \code{6}.}
+
+\item{nb}{The maximum number of models that will be considered
+for each quantile.  Prior to 9/2016 the default was \code{3}.}
+
 \item{WY.lim}{(optional)  The minimum number of water years required to be
 included in the formation of regional regressions.  Only reference-quality
 sites with at least this many complete water years will be used.
@@ -31,20 +38,18 @@ The default is \code{10}.}
 will be set to.  The default is \code{0.001}.}
 
 \item{cens_level}{(optional)  The value establishing left censoring.
-The deafult is \code{0.005}.}
+The default is \code{0.005}.}
 
 \item{max.VIF}{(optional)  The maximum variance inflation factor permitted
 in a candidate model.  The default is \code{10}.}
 
-\item{nvmax}{(optional)  The maximum number of variables that will be
-considered in a regression.  The default is \code{6}.}
-
-\item{nb}{(optional) The maximum number of models that will be considered
-for each quantile.  The deafult is \code{3}.}
-
 \item{plunge.ahead}{(optional) A logical vector indicating if zero values
 should or should not be handled with the \code{zero.val}.
 The default is \code{TRUE}.}
+
+\item{forced.BC}{(optional) A single basin characteristic that candidate models
+are required to include.
+The default is \code{NULL}.}
 }
 \value{
 A list of lists, one for each quantile, with each of those
