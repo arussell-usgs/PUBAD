@@ -3,7 +3,9 @@
 #' @description
 #' A sub-function for single comparison of models in a flow regime.
 #'
-#' @param flow A character string indicating the name of the flow regime.
+#' @param regimes A list of flow regimes, where each element is a character
+#' vector indicating the frequencies of each quantile.
+#' @param regime_i The index to which flow regime is to be used.
 #' @param numvars The maximum number of variables considered in
 #' the regression.
 #' @param unfilled_FDCs A matrix of the raw FDC quantiles for each site.
@@ -12,6 +14,8 @@
 #' were present for each site.  This is derived from the output of
 #' \code{\link{calcEmpFDCs}}.
 #' @param top_n_list Output from \code{\link{compile.vars}}
+#' @param n The maximum number of models subsetted.
+#' Prior to 9/2016, the default was \code{20}.
 #' @param expl A data frame of the potential explanatory variables,
 #' derived from the output of \code{\link{getBasinChar}}.
 #' @param WY.lim (optional)  The minimum number of water years required to be
@@ -21,9 +25,7 @@
 #' @param zero.val (optional)  The value to which zeroes or negative quantiles
 #' will be set to.  The default is \code{0.001}.
 #' @param cens_level (optional)  The value establishing left censoring.
-#' The deafult is \code{0.005}.
-#' @param n (optional) The maximum number of models subsetted.
-#' The deafult is \code{20}.
+#' The default is \code{0.005}.
 #' @param plot.dir A directory to which plots are to be saved.
 #' The default behavior \code{save.dir=NULL} does not create plots.
 #'
@@ -33,16 +35,21 @@
 #' @return Unclear.  Used by \code{\link{best.models}}, among others.
 #'@export
 #'@import smwrQW
-comp<-function(flow, numvars, unfilled_FDCs,comp.wys,top_n_list,expl,WY.lim=10,
-  zero.val=0.001,cens_level = 0.005, n=20,plot.dir=NULL) {
-  # Function orginially designed by Thomas M. Over and Mike Olsen, 03 July 2015.
+comp<-function(regimes, regime_i, numvars, unfilled_FDCs, comp.wys, top_n_list, n, expl,WY.lim=10,
+  zero.val=0.001, cens_level = 0.005, plot.dir=NULL) {
+  # Function originally designed by Tom Over and Mike Olson, 03 July 2015.
   # Modified by William Farmer, 06 July 2015.
   #     Re-written to prevent writing key files; returns output instead.
+  # Revised by TMO, Jul 2016, to debug and generalize,
+  #  changed parameter names, and removed ability to make plots because
+  #  current code to generate plots not functional.
+  # Implemented by Amy Russell, 9/2016
 
   # @importFrom smwrQW summary.censReg plot.censReg censReg as.lcens
 
   make.plots <- FALSE
-  if (!is.null(plot.dir)) {make.plots <- TRUE}
+  #Temporarily comment out possibility of make.plots = T (TMO, 7/2016)
+  #if (!is.null(plot.dir)) {make.plots <- TRUE}
 
   dep = unfilled_FDCs
   dep = t(dep)
@@ -50,13 +57,13 @@ comp<-function(flow, numvars, unfilled_FDCs,comp.wys,top_n_list,expl,WY.lim=10,
 
   #Read in basin characteristics
   expl=expl[as.numeric(rownames(expl)) %in%  as.numeric(rownames(dep)),]
-  class=as.character(expl$CLASS)
-  #keep only reference gages with >= 10 complete water years
-  screen.ndx <- comp.wys>=WY.lim & class=='Ref'
+  #class=as.character(expl$CLASS) #Hard coding removed by AMR 9/2016
+  #keep only reference gages with >= WY.lim complete water years
+  screen.ndx <- comp.wys>=WY.lim #& class=='Ref' #Hard coding removed by AMR 9/2016
   dep=dep[screen.ndx,]
 
   #if NA, NaN, or negative, set to .001 (log10(.001)=-3)
-  dep[dep <= 0 | is.na(dep) | is.nan(dep)]=zero.val
+  dep[dep <= 0 | is.na(dep) | is.nan(dep)] = zero.val
 
   #log10 transform dependent variables and censoring level
   dep=log10(dep)
@@ -68,20 +75,25 @@ comp<-function(flow, numvars, unfilled_FDCs,comp.wys,top_n_list,expl,WY.lim=10,
   expl=as.matrix(expl)
   comp.wys=comp.wys[screen.ndx]
 
-  flows=c('lowflow', 'medflow', 'highflow')
+  # flows=c('lowflow', 'medflow', 'highflow')
+  flows = names(regimes) #"regimes" now passed in as a parameter - TMO, Jul 2016
   #read in best n models
-  vars = top_n_list[[which(flows==flow)]][[numvars]]
+  vars = top_n_list[[regime_i]][[numvars]] #"regime_i" now passed in as a parameter - TMO, Jul 2016
   if (is.null(vars)){
     result <- NULL
     return(result)
   }
-  if(flow == "lowflow") {
-    js = c(1:9)
-  } else if (flow == "medflow") {
-    js = c(10:19)
-  } else {
-    js = c(20:27)
-  }
+  # if(flow == "lowflow") {
+  #   js = c(1:9)
+  # } else if (flow == "medflow") {
+  #   js = c(10:19)
+  # } else {
+  #   js = c(20:27)
+  # }
+  #Next 2 lines replace hard-coded definition of js in 7 lines immediately above (TMO, Jul 2016):
+  if (regime_i==1) js = c(1:length(regimes[[1]])) else
+    if (regime_i>1) js = c( (length(unlist(regimes[1:(regime_i-1)]))+1) :
+                              (length(unlist(regimes[1:regime_i]))) )
   #set up summary statistics arrays
   r2=array(0,dim=c(2,numvars)); r2g=rep(0,2)
   aic=array(0,dim=dim(r2)); aicg=rep(0,2)
@@ -89,7 +101,10 @@ comp<-function(flow, numvars, unfilled_FDCs,comp.wys,top_n_list,expl,WY.lim=10,
   r2adj=array(0,dim=dim(r2)); r2adjg=rep(0,2)
   evfreq = array(0, dim = c((length(vars[,1])-3), 2))
   #output2 is summary of coefficients
-  output2 = array(" ", dim = c(20*(as.numeric(numvars)+2), (length(js)+1)))
+  #output2 = array(" ", dim = c(20*(as.numeric(numvars)+2), (length(js)+1)))
+  #Line above causes subscript out of bounds error for large n;
+  #apparently "20" is a hard-coded maximum n; replacing (TMO, 7/2016)
+  output2 = array(" ", dim = c(n*(as.numeric(numvars)+2), (length(js)+1)))
   #zoplot is binary plot of whether or not a variable was used
   zoplot = array(0, dim = c((length(vars[,1])-3),22)) #WHF: Why hard-code 22?
   zoplot[,1] = evfreq[,1] =
@@ -102,13 +117,15 @@ comp<-function(flow, numvars, unfilled_FDCs,comp.wys,top_n_list,expl,WY.lim=10,
       output <- NULL
       next
     }
-    evfreq[which(evfreq%in%as.character(vars[which(vars[,i+1]=="*"),1])==TRUE),
-      2] = as.numeric(evfreq[which(evfreq%in%as.character(
-        vars[which(vars[,i+1]=="*"),1])==TRUE),2]) + 1
-    evs[(length(evs)+1):(length(evs)+as.numeric(numvars))] =
-      as.character(vars[which(vars[,i+1]=="*"),1])
-    zoplot[which(evfreq%in%as.character(vars[which(vars[,i+1]=="*"),
-      1])==TRUE),(i+1)] = as.numeric(1)
+    #Temporarily comment out use of evfreq, evs, and zoplot (TMO, 7/13/2016)
+    # evfreq[which(evfreq%in%as.character(vars[which(vars[,i+1]=="*"),1])==TRUE),
+    #   2] = as.numeric(evfreq[which(evfreq%in%as.character(
+    #     vars[which(vars[,i+1]=="*"),1])==TRUE),2]) + 1
+    # evs[(length(evs)+1):(length(evs)+as.numeric(numvars))] =
+    #   as.character(vars[which(vars[,i+1]=="*"),1])
+    # zoplot[which(evfreq%in%as.character(vars[which(vars[,i+1]=="*"),
+    #   1])==TRUE),(i+1)] = as.numeric(1)
+
     #coefficients & summary stats for each model
     output = array(" ", dim = c((3*((1+as.numeric(numvars)))+2),
       (1+length(js))))
