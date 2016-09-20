@@ -6,15 +6,11 @@
 #' specified quantiles and regimes.
 #'
 #' @param leaps_list Output from \code{\link{compute.leaps.for}}
-#' @param nvmax (optional)  The maximum number of variables that will be
-#' considered in a regression.  The default is \code{6}.
-#' @param nb (optional) The maximum number of models subsetted.
-#' The deafult is \code{20}.
-#' @param range A list of three elements (\code{names(range) = c('low_range',
-#' 'med_range','high_range')}), where each element is a vector of indices
-#' specify the quantiles belonging to each regime.  The default is \code{
-#' list(low_range=c(1:9), med_range=c(10:19), high_range=c(20:27))}.
-#' @param regimes (optional) A list of three elements (\code{names(regimes) =
+#' @param nvmax The maximum number of variables that will be
+#' considered in a regression.  Prior to 9/2016, the default was \code{6}.
+#' @param n The maximum number of models subsetted.
+#' Prior to 9/2016, the default was \code{20}.
+#' @param regimes (optional) A list of two or more elements (\code{names(regimes) =
 #' c('lowflow','medflow','highflow')}), where each element is a character
 #' vector indicating the frequencies of each quantile. The default is \code{
 #' list(lowflow = c("0.0002","0.0005","0.001","0.002","0.005","0.01","0.02",
@@ -26,10 +22,9 @@
 #' Lorem ipsum...
 #'
 #' @return A list ranking all models across the number of variables
-#' for each regime.
+#' for each regime. Higher ranks are better.
 #'@export
-compile.vars <- function(leaps_list,nvmax = 6, n=20,
-  range = list(low_range=c(1:9), med_range=c(10:19), high_range=c(20:27)),
+compile.vars <- function(leaps_list, nvmax, n,
   regimes = list(
     lowflow = c("0.0002","0.0005","0.001","0.002",
       "0.005","0.01","0.02","0.05","0.1"),
@@ -39,11 +34,31 @@ compile.vars <- function(leaps_list,nvmax = 6, n=20,
       "0.998", "0.999", "0.9995", "0.9998")),
   unfilled_FDCs=NA)
 {
-  # Function orginially designed by Thomas M. Over and Mike Olsen, 03 July 2015.
+  # Function originally designed by Tom Over and Mike Olson, 03 July 2015.
   # Modified by William Farmer, 06 July 2015.
-  if (is.na(regimes)) {
-    regimes.ret <- regimes(unfilled_FDCs,zero_val=zero.val)
-    regimes <- regimes.ret$regimes
+  # Revised by TMO, June 2016
+  # Implemented by Amy Russell, 9/2016
+
+
+  # Following if statement deleted by AMR, 9/2016
+  #  due to new requirement that BCs be passed to the regimes function.
+  # When not using default regimes, suggest user call regimes function first then
+  #  pass its result to this function (compile.vars) rather than calling regimes
+  #  from within the code here.
+
+
+  # # if (is.na(regimes)) { #modified by TMO, 6/2016
+  # if (sum(is.na(regimes))>0) {
+  #   regimes.ret <- regimes(unfilled_FDCs,BCs,zero_val=zero.val)
+  #   regimes <- regimes.ret$regimes
+  # }
+
+  # compute range from regimes (added by TMO, 6/2016)
+  range <- regimes
+  rngcnt <- 0
+  for(i in 1:length(regimes)) {
+    range[[i]] = (rngcnt+1):(rngcnt+length(regimes[[i]]))
+    rngcnt = rngcnt+length(regimes[[i]])
   }
 
   top_n_list=list()
@@ -57,8 +72,10 @@ compile.vars <- function(leaps_list,nvmax = 6, n=20,
       if (ncol(leaps_list[[i]][[j]])==1) {next}
       #creates a list of 3: the Predictor variables in each model,
       #each model's rank, and all the explanatory variables
-      ret = tolist(names = regimes[[i]], vars = j, range = range[[i]],
-        leaps_list=leaps_list)
+
+      #Revised by TMO, 6/2016:
+      ret = tolist(regimes = regimes, regm.indx=i, vars = j, ranges = range,
+        leaps_list = leaps_list)
       y = ret[[1]]
       ranks = ret[[2]]
       expl = ret[[3]]
