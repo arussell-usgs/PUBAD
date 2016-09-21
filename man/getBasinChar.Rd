@@ -5,7 +5,8 @@
 \title{Collect and process basin characteristics for required basins.}
 \usage{
 getBasinChar(listofgages, basinChars = NULL, destination = "",
-  BC.code6.remflg = F, max.BC.oneval.frac = 0.5, debug.flg = F)
+  BC.code6.remflg = F, max.BC.oneval.frac = 0.5, debug.flg = F,
+  keepWB = F)
 }
 \arguments{
 \item{listofgages}{Dataframe of gage numbers (as a character vector)}
@@ -27,12 +28,19 @@ then the BC will be removed.  The default is \code{0.5}.}
 
 \item{debug.flg}{(optional) A logical indicating if verbose outputs are
 required from variable transformation.  The default is \code{FALSE}.}
+
+\item{keepWB}{(optional) A logical passed to
+\code{\link{clean_BCs}} that indicates whether or not
+Water Balance model variables are retained. The default is \code{FALSE}.}
 }
 \value{
 The function returns a list as output.  This list contains:
 \item{DescBCs}{A data frame containing the station ID (\code{STAID}),
-drainage area (\code{DRAIN_SQKM}), and latitude and longitude
-(\code{LAT_GAGE_UTM} and \code{LNG_GAGE_UTM}) for the \code{listofgages}.}
+drainage area (\code{DRAIN_SQKM}), and latitude and longitude in Albers
+projection (\code{LAT_GAGE_UTM} and \code{LNG_GAGE_UTM})
+and decimal degrees (\code{LAT_GAGE} and \code{LNG_GAGE}) for the gage outlet
+and basin centroid (\code{LAT_CENT} and \code{LoNG_CENT})
+for the \code{listofgages}.}
 \item{AllBCs}{A data frame containing all the variables in the database.}
 \item{cleanBCs}{A data frame of basin characteristics screened to remove
 categorical data or variables with a large proportion of

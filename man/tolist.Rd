@@ -4,14 +4,16 @@
 \alias{tolist}
 \title{List of EVs}
 \usage{
-tolist(names, vars, range, leaps_list)
+tolist(regimes, regm.indx, vars, ranges, leaps_list)
 }
 \arguments{
-\item{names}{Unclear.}
+\item{regimes}{The flow regimes list from \code{\link{compile.vars}}}
 
-\item{vars}{Unclear.}
+\item{regm.indx}{The index to which flow regime is to be used}
 
-\item{range}{Unclear.}
+\item{vars}{The number of variables in a candidate model}
+
+\item{ranges}{The ranges index list corresponding to regimes}
 
 \item{leaps_list}{Output from \code{\link{compute.leaps.for}}}
 }

@@ -6,6 +6,8 @@
 #'
 #' @param unfilled_FDCs A matrix of the raw FDC quantiles for each site.
 #' This is derived from the output of \code{\link{calcEmpFDCs}}.
+#' @param BCs A data frame of basin characteristics for each site,
+#' derived from the output of \code{\link{getBasinChar}}.
 #' @param zero_val (optional)  The value to which zeroes or negative quantiles
 #' will be set to.  The default is \code{0.001}.
 #'
@@ -19,22 +21,25 @@
 #' \item{nrmse}{Normalized root-mean-squared error.}
 #'@export
 #'@import pastecs
-regimes = function(unfilled_FDCs,zero_val=0.001){
+regimes = function(unfilled_FDCs, BCs, zero_val=0.001){
 
-  # Function orginially designed by Thomas M. Over and
-  #   Mike Olsen, 06 October 2015.
+  # Function orginially designed by Tom Over and
+  #   Mike Olson, 06 October 2015.
   # Modified by William Farmer, 09 October 2015.
   #     Re-written to prevent writing key files; returns output instead.
+  # Revised by TMO, June 2016
+  # Implemented by Amy Russell, 9/2016
 
 
   # @importFrom pastecs turnpoints
 
   gages = colnames(unfilled_FDCs)
-  probs <- as.double(row.names(empFDCs.all))
-  BCs_path <- file.path("Data","Raw",
-    "gagesII_PUBairdropchar_full_UTM.csv")
-  BCs = read.csv(BCs_path)
-  BCs = BCs[as.numeric(BCs[,1]) %in% as.numeric(gages),]
+  probs <- as.double(row.names(unfilled_FDCs)) #Modified by TMO, 6/2016
+  #Removed by TMO, 6/2016:
+  # BCs_path <- file.path("Data","Raw",
+  #   "gagesII_PUBairdropchar_full_UTM.csv")
+  # BCs = read.csv(BCs_path)
+  # BCs = BCs[as.numeric(BCs[,1]) %in% as.numeric(gages),]
 
   red.FDCs = unfilled_FDCs; red.BCs = BCs
 

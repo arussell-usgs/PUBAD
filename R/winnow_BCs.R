@@ -36,8 +36,9 @@
 #' @return A matrix of basin characteristics, with some removed.
 #'@export
 winnow_BCs <- function(BCs, BC.code6.remflg=F) {
-  # Function orginially designed by Thomas M. Over and Mike Olsen, 30 June 2015.
+  # Function originally designed by Tom Over and Mike Olson, 30 June 2015.
   # Modified by William Farmer, 30 June 2015.
+  # Revised by TMO, 7/2016, only changing a couple cosmetic items.
 
   #Define stations numbers and how many stations based on BC input
   statn.nums = BCs$STAID; nstatns = nrow(BCs)
@@ -153,6 +154,8 @@ winnow_BCs <- function(BCs, BC.code6.remflg=F) {
     mon_WB.names = paste("WB5100_",month.abbrevs,"_MM",sep="")
     if (sum(mon_WB.names %in% names(BCs)) == 12) {
       # WHF added if statement in case variables are removed.
+      # Per modification to clean_BCs.R by TMO during 7/2016,
+      #   the full set of 12 monthly WB5100... variables have option to be retained.
       x.cos = cos(2*pi*(1:12)/12); x.sin = sin(2*pi*(1:12)/12)
       mon_WB.phase = mon_WB.amp = numeric(nstatns)
       for (i in 1:nstatns) {

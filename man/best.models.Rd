@@ -4,15 +4,21 @@
 \alias{best.models}
 \title{Find top models for each flow regime.}
 \usage{
-best.models(top_n_list, unfilled_FDCs, expl, comp.wys, save.dir = NULL,
-  nvmax = 6, n = 20, cens_level = 0.005, zero.val = 0.001,
-  WY.lim = 10, regimes = list(lowflow = c("0.0002", "0.0005", "0.001",
-  "0.002", "0.005", "0.01", "0.02", "0.05", "0.1"), medflow = c("0.2", "0.25",
-  "0.3", "0.4", "0.5", "0.6", "0.7", "0.75", "0.8", "0.9"), highflow = c("0.95",
-  "0.98", "0.99", "0.995", "0.998", "0.999", "0.9995", "0.9998")))
+best.models(top_n_list, nvmax, n, unfilled_FDCs, expl, comp.wys,
+  save.dir = NULL, cens_level = 0.005, zero.val = 0.001, WY.lim = 10,
+  regimes = list(lowflow = c("0.0002", "0.0005", "0.001", "0.002", "0.005",
+  "0.01", "0.02", "0.05", "0.1"), medflow = c("0.2", "0.25", "0.3", "0.4",
+  "0.5", "0.6", "0.7", "0.75", "0.8", "0.9"), highflow = c("0.95", "0.98",
+  "0.99", "0.995", "0.998", "0.999", "0.9995", "0.9998")))
 }
 \arguments{
 \item{top_n_list}{Output from \code{\link{compile.vars}}}
+
+\item{nvmax}{The maximum number of variables that will be
+considered in a regression.  Prior to 9/2016, the default was \code{6}.}
+
+\item{n}{The maximum number of models subsetted.
+Prior to 9/2016, the default was \code{20}.}
 
 \item{unfilled_FDCs}{A matrix of the raw FDC quantiles for each site.
 This is derived from the output of \code{\link{calcEmpFDCs}}.}
@@ -27,14 +33,8 @@ were present for each site.  This is derived from the output of
 \item{save.dir}{(optional) A directory to which results are to be saved.
 The default behavior \code{save.dir=NULL} does not save results.}
 
-\item{nvmax}{(optional)  The maximum number of variables that will be
-considered in a regression.  The default is \code{6}.}
-
-\item{n}{(optional) The maximum number of models subsetted.
-The deafult is \code{20}.}
-
 \item{cens_level}{(optional)  The value establishing left censoring.
-The deafult is \code{0.005}.}
+The default is \code{0.005}.}
 
 \item{zero.val}{(optional)  The value to which zeroes or negative quantiles
 will be set to.  The default is \code{0.001}.}
@@ -44,7 +44,7 @@ included in the formation of regional regressions.  Only reference-quality
 sites with at least this many complete water years will be used.
 The default is \code{10}.}
 
-\item{regimes}{(optional) A list of three elements (\code{names(regimes) =
+\item{regimes}{(optional) A list of two or more elements (\code{names(regimes) =
 c('lowflow','medflow','highflow')}), where each element is a character
 vector indicating the frequencies of each quantile. The default is \code{
 list(lowflow = c("0.0002","0.0005","0.001","0.002","0.005","0.01","0.02",
@@ -53,7 +53,7 @@ list(lowflow = c("0.0002","0.0005","0.001","0.002","0.005","0.01","0.02",
  "0.998", "0.999", "0.9995", "0.9998"))}.}
 }
 \value{
-Top three models (by AIC and adjustes R2) for each regime.
+Top three models (by AIC and adjusted R2) for each regime.
 }
 \description{
 Takes output from \code{\link{compile.vars}} and determines

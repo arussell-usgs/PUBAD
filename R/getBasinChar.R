@@ -19,14 +19,20 @@
 #' then the BC will be removed.  The default is \code{0.5}.
 #' @param debug.flg (optional) A logical indicating if verbose outputs are
 #' required from variable transformation.  The default is \code{FALSE}.
+#' @param keepWB (optional) A logical passed to
+#' \code{\link{clean_BCs}} that indicates whether or not
+#' Water Balance model variables are retained. The default is \code{FALSE}.
 #'
 #' @details
 #' Lorem ipsum...
 #'
 #' @return The function returns a list as output.  This list contains:
 #' \item{DescBCs}{A data frame containing the station ID (\code{STAID}),
-#' drainage area (\code{DRAIN_SQKM}), and latitude and longitude
-#' (\code{LAT_GAGE_UTM} and \code{LNG_GAGE_UTM}) for the \code{listofgages}.}
+#' drainage area (\code{DRAIN_SQKM}), and latitude and longitude in Albers
+#' projection (\code{LAT_GAGE_UTM} and \code{LNG_GAGE_UTM})
+#' and decimal degrees (\code{LAT_GAGE} and \code{LNG_GAGE}) for the gage outlet
+#' and basin centroid (\code{LAT_CENT} and \code{LoNG_CENT})
+#' for the \code{listofgages}.}
 #' \item{AllBCs}{A data frame containing all the variables in the database.}
 #' \item{cleanBCs}{A data frame of basin characteristics screened to remove
 #' categorical data or variables with a large proportion of
@@ -44,11 +50,13 @@
 #' }
 #'@export
 getBasinChar <- function(listofgages,basinChars=NULL,destination="",
-  BC.code6.remflg=F,max.BC.oneval.frac=0.5,debug.flg=F) {
+  BC.code6.remflg=F,max.BC.oneval.frac=0.5,debug.flg=F, keepWB=F) {
   # Function orginially designed by Stacey A. Archfield, 02 June 2015.
   # Modified by William Farmer, 03 June 2015.
-  # Fused with code by Thomas Over and Mike Olsen, 30 June 2015.
-  #   Includes code to clean, winnow and transform variables.
+  # Fused with code by Tom Over and Mike Olson, 30 June 2015.
+  #   Includes code to clean, winnow and transform basin characteristic variables.
+  # Modified by TMO and Amy Russell, 9/2016, to pass parameter keepWB to
+  #   clean_BCs function
 
   # Cut down to only sites requested.
   # NOTE: BasCharRaw is embedded in sysdata.rda
@@ -58,28 +66,33 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
   # Save all variables
   if (destination!="") {
     silent <- TRUE
-    destination <- paste0(destinaiton,".AllVar.RData")
+    destination <- paste0(destination,".AllVar.RData")
     save(list=c("BasChar"),file=destination,compress="bzip2")
   }
   row.names(BasChar) <- NULL
 
   # Reserve standard variables:
-  DescChars <- BasChar[,which(is.element(names(BasChar),c("STAID","DRAIN_SQKM",
-    "LAT_GAGE_UTM","LNG_GAGE_UTM")))]
+  # Added lat/lon of basin centroid and outlet to list of standard variables
+  # TMO, 7/2016
+  DescChars <- BasChar[,which(is.element(names(BasChar),
+                                         c("STAID","DRAIN_SQKM",
+                                           "LAT_GAGE_UTM","LNG_GAGE_UTM",
+                                           "LAT_GAGE", "LNG_GAGE",
+                                           "LAT_CENT", "LONG_CENT")))]
 
   row.names(BasChar) <- BasChar$STAID
 
   BasChar <- BasChar[,-which(is.element(names(BasChar),
     c("LAT_GAGE_UTM","LNG_GAGE_UTM","STAID")))]
 
-  ## CODE DEVELOPED BY THOMAS AND MIKE
+  ## CODE DEVELOPED BY TOM AND MIKE
 
   #Create suffix to be used (when silent = F) as part of output files
   if (BC.code6.remflg) code6_str = "rem_code6" else code6_str = "keep_code6"
   BC_suffix = paste(code6_str,".max_oneval_frac",max.BC.oneval.frac,sep="")
 
   cleanBCs = clean_BCs(BasChar, BC.code6.remflg, max.BC.oneval.frac,
-    BC_suffix, destination)
+    BC_suffix, destination, keepWB=keepWB)
 
   winnowedBCs = winnow_BCs(cleanBCs, BC.code6.remflg)
 
@@ -98,7 +111,7 @@ getBasinChar <- function(listofgages,basinChars=NULL,destination="",
   #Correlation matrix of BCs, also to help determine
   #redundant BCs.
 
-  ## END CODE DEVELOPED BY THOMAS AND MIKE
+  ## END CODE DEVELOPED BY TOM AND MIKE
 
   # Cut down to only variables requested.
   if (!is.null(basinChars)) {
