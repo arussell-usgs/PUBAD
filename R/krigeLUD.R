@@ -137,10 +137,10 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
       if (j==1) {
         n <- sum(choose(colSums(!is.na(index.obs.temp)),2))
         PooledEmpVario <- list(
-          u=gage.variogram$u,
-          v=rep(0,length(gage.variogram$v)), # divide by bin size at end
-          n=rep(0,length(gage.variogram$n)),
-          sd=rep(0,length(gage.variogram$sd)), # Convert to sd later
+          u=zoo::rollmean(gage.variogram$bins.lim, 2),
+          v=rep(0,length(gage.variogram$bins.lim) - 1), # divide by bin size at end
+          n=rep(0,length(gage.variogram$bins.lim) - 1),
+          sd=rep(0,length(gage.variogram$bins.lim) - 1), # Convert to sd later
           bins.lim=gage.variogram$bins.lim,
           ind.bin=gage.variogram$ind.bin,
           var.mark=0, # divide by (n-1) with each summation
@@ -160,9 +160,14 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
         )
         class(PooledEmpVario) <- class(gage.variogram)
       }
-      PooledEmpVario$v <- PooledEmpVario$v + gage.variogram$v*gage.variogram$n
-      PooledEmpVario$n <- PooledEmpVario$n + gage.variogram$n
-      PooledEmpVario$sd <- PooledEmpVario$sd + (gage.variogram$sd)^2*(gage.variogram$n-1)
+      bndx <- which(gage.variogram$ind.bin)
+      if ((sum(is.infinite(gage.variogram$v)) +
+          sum(is.na(gage.variogram$v))) > 0) {
+        stop()
+      }
+      PooledEmpVario$v[bndx] <- PooledEmpVario$v[bndx] + gage.variogram$v*gage.variogram$n
+      PooledEmpVario$n[bndx] <- PooledEmpVario$n[bndx] + gage.variogram$n
+      PooledEmpVario$sd[bndx] <- PooledEmpVario$sd[bndx] + (gage.variogram$sd)^2*(gage.variogram$n-1)
       PooledEmpVario$var.mark <- PooledEmpVario$var.mark + gage.variogram$var.mark*
         (gage.variogram$n.data-1)/(n-1)
       PooledEmpVario$beta.ols <- PooledEmpVario$beta.ols + gage.variogram$beta.ols*
