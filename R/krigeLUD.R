@@ -224,8 +224,9 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
 
   if (pooled) {
     # average any remaining pooled parameters
-    PooledEmpVario$v <- PooledEmpVario$v/PooledEmpVario$n
-    PooledEmpVario$sd <- sqrt(PooledEmpVario$sd/(PooledEmpVario$n-1))
+    ndx0 <- which(PooledEmpVario$n > 0)
+    PooledEmpVario$v[ndx0] <- PooledEmpVario$v[ndx0] / PooledEmpVario$n[ndx0]
+    PooledEmpVario$sd[ndx0] <- sqrt(PooledEmpVario$sd[ndx0] / (PooledEmpVario$n[ndx0] - 1))
 
     # Fit Model to Pooled Empirical Variogram
     pooledVar <- variofit(PooledEmpVario, cov.model = CovMod, messages=F,
