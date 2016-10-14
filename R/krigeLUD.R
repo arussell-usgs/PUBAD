@@ -160,9 +160,14 @@ krigeLUD <- function(index.gages,index.baschar,index.obs,
         )
         class(PooledEmpVario) <- class(gage.variogram)
       }
-      PooledEmpVario$v <- PooledEmpVario$v + gage.variogram$v*gage.variogram$n
-      PooledEmpVario$n <- PooledEmpVario$n + gage.variogram$n
-      PooledEmpVario$sd <- PooledEmpVario$sd + (gage.variogram$sd)^2*(gage.variogram$n-1)
+      bndx <- which(gage.variogram$ind.bin)
+      if ((sum(is.infinite(gage.variogram$v)) +
+          sum(is.na(gage.variogram$v))) > 0) {
+        stop()
+      }
+      PooledEmpVario$v <- PooledEmpVario$v[bndx] + gage.variogram$v*gage.variogram$n
+      PooledEmpVario$n <- PooledEmpVario$n[bndx] + gage.variogram$n
+      PooledEmpVario$sd <- PooledEmpVario$sd[bndx] + (gage.variogram$sd)^2*(gage.variogram$n-1)
       PooledEmpVario$var.mark <- PooledEmpVario$var.mark + gage.variogram$var.mark*
         (gage.variogram$n.data-1)/(n-1)
       PooledEmpVario$beta.ols <- PooledEmpVario$beta.ols + gage.variogram$beta.ols*
