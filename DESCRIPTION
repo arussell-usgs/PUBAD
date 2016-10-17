@@ -23,5 +23,7 @@ Imports:
     faraway,
     survival,
     pastecs,
-    smwrStats
+    smwrStats,
+    matrixStats,
+    geosphere
 RoxygenNote: 5.0.1
