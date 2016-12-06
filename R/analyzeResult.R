@@ -52,6 +52,7 @@ analyzeResult <- function(modelOutput,
                              bins=seq(0,1,0.01),FlowStat=F) {
   # Function developed by William Farmer, 08 June 2015
   # 13 October 2015: Corrected to screen for WYs. WHF.
+  # 06 December 2016: Added station IDs as row names to AnList elements. AMR.
 
   # Water Years
   Dates <- as.character(modelOutput[[1]]$date) #modified 5/16/2016
@@ -94,6 +95,7 @@ analyzeResult <- function(modelOutput,
   Perf <- data.frame(NSE,NSEL,RMSE,RMSEL,PErr,PErrL,Corr)
   names(Perf) <- c("nse","nsel","rmse","rmsne","nrmse","cvrmse","rmsel",
                    "rmsnel","nrmsel","cvrmsel","perr","perrl","cor.p","cor.s")
+  row.names(Perf) <- names(modelOutput) # Added 12/6/16 AMR
 
   #Added by TMO, 4/2016:
   #1. Moment ratios
@@ -108,6 +110,7 @@ analyzeResult <- function(modelOutput,
   logMeanRat = colMeans(log10(Est), na.rm=T) / colMeans(log10(Obs), na.rm=T)
   logVarRat = colVars(log10(Est), na.rm=T) / colVars(log10(Obs), na.rm=T)
   MomRats = data.frame(cbind(MeanRat,VarRat,logMeanRat,logVarRat))
+  row.names(MomRats) <- names(modelOutput) # Added 12/6/16 AMR
 
   #2. Quantile ratios
   #For now, probs and type are fixed and do not require extrapolation for stations
@@ -120,6 +123,7 @@ analyzeResult <- function(modelOutput,
     qRats[i,] = quantile(Est[,i], qprobs, na.rm=T, type=qtype) / quantile(Obs[,i], qprobs, na.rm=T, type=qtype)
   }
   #End of code added by TMO, 4/2016
+  row.names(qRats) <- names(modelOutput) # Added 12/6/16 AMR
 
   # Cumulative distribution of absolute percent errors
   dailyPErr <- (Est-Obs)/Obs
@@ -127,6 +131,8 @@ analyzeResult <- function(modelOutput,
   for (i in 1:length(ErrLevs)) {
     DisErr[,i] <- colMeans(abs(dailyPErr)<=ErrLevs[i],na.rm=T)
   }
+  rownames(DisErr) <- names(modelOutput) # Added 12/6/16 AMR
+  colnames(DisErr) <- ErrLevs # Added 12/6/16 AMR
 
   # Percent error along the flow duration curve
   Probs <- matrix(NA,ncol=ncol(Obs),nrow=nrow(Obs))
@@ -144,6 +150,8 @@ analyzeResult <- function(modelOutput,
       Binned.PErr.median[i,j] <- median(dailyPErr[ndx,i],na.rm=T)
     }
   }
+  rownames(Binned.PErr.mean) <- names(modelOutput) # Added 12/6/16 AMR
+  rownames(Binned.PErr.median) <- names(modelOutput) # Added 12/6/16 AMR
 
   if (FlowStat) {
     # Get flow statistics
