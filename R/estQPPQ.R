@@ -225,7 +225,7 @@ estQPPQ <- function(index.network,index.obs,index.empFDC,zero.val=NA,
       #if (sum(!is.finite(TargetFlow))>0) {break}
 
       # Save result
-      Data[NDX2,1] <- as.Date(IndexDates) # dates (to double-check)
+      Data[NDX2,1] <- as.character(IndexDates) # dates (to double-check)
       Data[NDX2,2] <- TargetFlow # Q_QPPQ
       Data[NDX2,3] <- IndexFlow # indexflow
       Data[NDX2,4] <- IndexPValue # index p-value
@@ -245,7 +245,7 @@ estQPPQ <- function(index.network,index.obs,index.empFDC,zero.val=NA,
     Data <- data.frame(Data)
     names(Data) <- c('date','est','indexflow','index.pval','index',
       'index.extrap','target.extrap','metric','obs','obs.pval')
-    Data$date <- as.character(Data$date)
+    Data$date <- as.Date(Data$date)
     result[[i]] <- Data
     names(result)[[i]] <- Site.ID
   }
