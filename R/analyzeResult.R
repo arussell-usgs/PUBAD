@@ -97,7 +97,7 @@ analyzeResult <- function(modelOutput,
   # PErrL <- percent.error(log(Obs),log(Est))
   #Replaced with mean of the differences of the logs (depends on positivity
   #of Obs and Est):
-  MeanDiffL <- mean.diff_log10(Obs,Est)
+  MeanDiffL <- mean_diff_log10(Obs,Est)
   Corr <- obs.sim.corr(Obs,Est,methods=c("pearson","spearman"))
   #Replaced PErrL with MeanDiffL
   Perf <- data.frame(NSE,NSEL,RMSE,RMSEL,PErr,MeanDiffL,Corr)
