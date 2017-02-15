@@ -28,7 +28,8 @@
 #' efficieny of daily streamflow, the Nash-Sutcliffe efficiency of the
 #' logarithms of the daily streamflow, the root-mean-square error statistics
 #' from \code{\link{rmse_like}} for natural and logarithm streamflows, the
-#' average percent errors of the natural and logarithm streamflows and the
+#' average percent errors of the natural streamflows, the average differences
+#' of the logarithms of streamflows, and the
 #' Pearson and Spearman correlations between observed and simulated streamflow.
 #'
 #' @return A list of several elements:
@@ -53,6 +54,7 @@ analyzeResult <- function(modelOutput,
   # Function developed by William Farmer, 08 June 2015
   # 13 October 2015: Corrected to screen for WYs. WHF.
   # 06 December 2016: Added station IDs as row names to AnList elements. AMR.
+  # 15 February 2017: PerrL dropped and new PM, MeanDiffL, added. TMO & AMR
 
   # Water Years
   Dates <- as.character(modelOutput[[1]]$date) #modified 5/16/2016
@@ -90,11 +92,17 @@ analyzeResult <- function(modelOutput,
   RMSE <- rmse_like(Obs,Est)
   RMSEL <- rmse_like(log(Obs),log(Est))
   PErr <- percent.error(Obs,Est)
-  PErrL <- percent.error(log(Obs),log(Est))
+  #Dropped because the divisor, log(Obs), switches sign depending on magnitude
+  #(TMO, 1/31/2017)
+  # PErrL <- percent.error(log(Obs),log(Est))
+  #Replaced with mean of the differences of the logs (depends on positivity
+  #of Obs and Est):
+  MeanDiffL <- mean_diff_log10(Obs,Est)
   Corr <- obs.sim.corr(Obs,Est,methods=c("pearson","spearman"))
-  Perf <- data.frame(NSE,NSEL,RMSE,RMSEL,PErr,PErrL,Corr)
+  #Replaced PErrL with MeanDiffL
+  Perf <- data.frame(NSE,NSEL,RMSE,RMSEL,PErr,MeanDiffL,Corr)
   names(Perf) <- c("nse","nsel","rmse","rmsne","nrmse","cvrmse","rmsel",
-                   "rmsnel","nrmsel","cvrmsel","perr","perrl","cor.p","cor.s")
+                   "rmsnel","nrmsel","cvrmsel","perr","meandiffl","cor.p","cor.s")
   row.names(Perf) <- names(modelOutput) # Added 12/6/16 AMR
 
   #Added by TMO, 4/2016:

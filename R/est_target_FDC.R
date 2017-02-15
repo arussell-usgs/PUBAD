@@ -23,6 +23,8 @@ est_target_FDC <- function(best.mods, regSelect, target.empFDC.filled, target.re
 {
   # Estimate ungauged (target) FDC ####
   # Adapted by Tom Over, 7/2016, from code in runGageList.R written by Will Farmer
+  # Modified 1/2017 by AMR to keep mod.mat a matrix after first column deleted.
+  #  This was causing errors when custom flow regime was comprised of a single flow quantile.
 
   target.estFDC <- as.matrix(target.empFDC.filled)
   target.estFDC[] <- NA
@@ -49,7 +51,7 @@ est_target_FDC <- function(best.mods, regSelect, target.empFDC.filled, target.re
     }
     mod.mat <- best.mods$best[[r]][[m]]
     ndx <- !is.element(mod.mat[,1],c("SD","VIF","R^2","AIC"))
-    mod.dat <- data.frame(t(apply(mod.mat[ndx,-1],2,as.double)))
+    mod.dat <- data.frame(t(apply(as.matrix(mod.mat[ndx,-1]),2,as.double)))
     names(mod.dat) <- mod.mat[ndx,1]
     ndx <- which(is.element(names(target.regvar),names(mod.dat)))
     r.target.regvar <- target.regvar[,ndx]

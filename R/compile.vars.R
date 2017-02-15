@@ -94,7 +94,10 @@ compile.vars <- function(leaps_list, nvmax, n,
       # have less models than the top number specified
       if (is.null(top)) {
         top_n=NA
-      } else if(ncol(top) >= n)  {
+      #} else if(ncol(top) >= n)  {
+      #Replacing line above which seems to ignore that top has a column of variable names on left,
+      #so only ncol(top)-1 columns contain the actual "data"
+      } else if((ncol(top)-1) >= n)  {
         top_n=top[,1:(n+1)]
       } else {
         top_n=top
