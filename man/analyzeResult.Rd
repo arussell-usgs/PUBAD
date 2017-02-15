@@ -58,7 +58,8 @@ The single-value performance metric calcuated include: The Nash-Sutcliffe
 efficieny of daily streamflow, the Nash-Sutcliffe efficiency of the
 logarithms of the daily streamflow, the root-mean-square error statistics
 from \code{\link{rmse_like}} for natural and logarithm streamflows, the
-average percent errors of the natural and logarithm streamflows and the
+average percent errors of the natural streamflows, the average differences
+of the logarithms of streamflows, and the
 Pearson and Spearman correlations between observed and simulated streamflow.
 }
 
