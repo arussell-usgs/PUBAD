@@ -245,7 +245,7 @@ estQPPQ <- function(index.network,index.obs,index.empFDC,zero.val=NA,
     Data <- data.frame(Data)
     names(Data) <- c('date','est','indexflow','index.pval','index',
       'index.extrap','target.extrap','metric','obs','obs.pval')
-    Data$date <- as.Date(Data$date)
+    Data$date <- as.character(Data$date)
     result[[i]] <- Data
     names(result)[[i]] <- Site.ID
   }
