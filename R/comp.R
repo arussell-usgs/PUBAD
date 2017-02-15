@@ -44,6 +44,8 @@ comp<-function(regimes, regime_i, numvars, unfilled_FDCs, comp.wys, top_n_list, 
   #  changed parameter names, and removed ability to make plots because
   #  current code to generate plots not functional.
   # Implemented by Amy Russell, 9/2016
+  # Modified 1/2017 by AMR to keep graphing matrices a matrix after first column deleted.
+  #  This was causing errors when custom flow regime was comprised of a single flow quantile.
 
   # @importFrom smwrQW summary.censReg plot.censReg censReg as.lcens
 
@@ -252,7 +254,11 @@ comp<-function(regimes, regime_i, numvars, unfilled_FDCs, comp.wys, top_n_list, 
   if (identical(r2g,rep(0,2))) {
     r2g <- sigg <- aicg <- r2adjg <- matrix(NA,nrow=2,ncol=1)
   } else {
-    r2g = r2g[,-1]; sigg = sigg[,-1]; aicg = aicg[,-1]; r2adjg = r2adjg[,-1]
+    if (ncol(r2g)==2){
+      r2g = matrix(r2g[,-1]); sigg = matrix(sigg[,-1]); aicg = matrix(aicg[,-1]); r2adjg = matrix(r2adjg[,-1])
+    } else {
+      r2g = r2g[,-1]; sigg = sigg[,-1]; aicg = aicg[,-1]; r2adjg = r2adjg[,-1]
+    }
   }
   zoplot[,22] = evfreq[,2]
   colnames(output2) <- c(" ",colnames(dep)[(js)])
