@@ -45,6 +45,9 @@
 #' @import RandomFields
 #' @import goftest
 #' @import Lmoments
+#' @import Matrix
+#' @import nlme
+#' @import mgcv
 estDAR <- function(index.network,index.baschar,
   target.baschar,index.obs,target.obs,
   DAR.low=-Inf,DAR.high=Inf) {
