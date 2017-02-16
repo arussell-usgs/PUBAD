@@ -42,7 +42,7 @@
 #'@export
 #'@import zoo
 #' @import splancs
-#' @import RandonFields
+#' @import RandomFields
 #' @import goftest
 #' @import Lmoments
 estDAR <- function(index.network,index.baschar,
