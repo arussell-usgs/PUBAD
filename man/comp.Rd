@@ -54,4 +54,3 @@ A sub-function for single comparison of models in a flow regime.
 \details{
 Lorem ipsum...
 }
-

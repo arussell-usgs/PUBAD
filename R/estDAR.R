@@ -41,6 +41,10 @@
 #' Used for validation.}
 #'@export
 #'@import zoo
+#' @import splancs
+#' @import RandonFields
+#' @import goftest
+#' @import Lmoments
 estDAR <- function(index.network,index.baschar,
   target.baschar,index.obs,target.obs,
   DAR.low=-Inf,DAR.high=Inf) {

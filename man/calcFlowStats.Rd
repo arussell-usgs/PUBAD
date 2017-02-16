@@ -28,4 +28,3 @@ FDSS 5), the amplitude and phase (FDSS 6 and 7) of the sinusoidal seasonal
  signal, and the 50th and 10th percentiles of the annual minimum seven-day
  average streamflow.
 }
-

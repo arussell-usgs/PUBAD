@@ -30,4 +30,3 @@ the root-mean-squared error.
 \details{
 Lorem ipsum...
 }
-

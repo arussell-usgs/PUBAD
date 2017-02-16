@@ -56,4 +56,3 @@ fdc$q <- qnorm(fdc$p, mean = 5, sd = 2)
 
 result <- approxP(qts = qts, fdc = fdc)
 }
-

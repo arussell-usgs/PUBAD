@@ -26,4 +26,3 @@ A sub-function used by \code{\link{compile.vars}}.
 \details{
 Lorem ipsum...
 }
-

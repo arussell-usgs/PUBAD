@@ -39,4 +39,3 @@ specified quantiles and regimes.
 \details{
 Lorem ipsum...
 }
-

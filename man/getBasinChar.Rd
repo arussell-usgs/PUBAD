@@ -64,4 +64,3 @@ in GAGES-II for a specific \code{listofgages}.
 \details{
 Lorem ipsum...
 }
-

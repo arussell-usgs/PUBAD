@@ -66,4 +66,3 @@ adjusted R^2 and AIC across quantiles within a flow regime by each number
 of variables, and whichever number of variables has the highest R^2 or
 lowest AIC is the "best" type of model for the flow regime.
 }
-

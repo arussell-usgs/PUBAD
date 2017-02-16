@@ -56,4 +56,3 @@ by map correlation, for each target location.
 \details{
 Lorem ipsum...
 }
-

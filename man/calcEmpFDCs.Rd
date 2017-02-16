@@ -58,4 +58,3 @@ If \code{cens} is set to \code{'filled'}, \code{library(smwrQW)} is required.
 (Install via instructions found here: https://github.com/USGS-R/smwrQW
 as the package is not on CRAN.)
 }
-

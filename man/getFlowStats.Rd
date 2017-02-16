@@ -35,4 +35,3 @@ statistics for observed and modeled streamflow time series.
 \details{
 See \code{\link{calcFlowStats}} for a list of statistics calculated.
 }
-

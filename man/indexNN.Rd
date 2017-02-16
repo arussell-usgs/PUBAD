@@ -41,4 +41,3 @@ by geographic proximity, for each target location.
 \details{
 Lorem ipsum...
 }
-

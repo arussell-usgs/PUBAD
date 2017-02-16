@@ -49,4 +49,3 @@ as the one which gives the skewness nearest to zero.
 Following selection of best transformation, post-transformation centering is
 applied as needed.
 }
-

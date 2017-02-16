@@ -30,4 +30,3 @@ observations and estimates for the rows or columns of a matrix.
 \details{
 Lorem ipsum...
 }
-

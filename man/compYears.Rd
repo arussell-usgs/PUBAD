@@ -33,4 +33,3 @@ years are full of real values.
 \details{
 Lorem ipsum...
 }
-

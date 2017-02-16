@@ -54,4 +54,3 @@ time series at each target location.
 \details{
 Lorem ipsum...
 }
-

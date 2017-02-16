@@ -44,4 +44,3 @@ available for a specified \code{listofgages}.
 \details{
 Lorem ipsum...
 }
-

@@ -30,4 +30,3 @@ into several regimes, if appropriate.
 \details{
 Lorem ipsum...
 }
-

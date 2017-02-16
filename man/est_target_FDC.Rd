@@ -25,4 +25,3 @@ A sub-function for construction of FDC for an ungaged site.
 \details{
 Lorem ipsum...
 }
-

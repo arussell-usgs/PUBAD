@@ -72,4 +72,3 @@ limit \code{max.VIF} will be dropped. The models are automatically ranked
 by regsubsets' weighted least-sqaures method, but the reported R^2 and BIC
 are calculated from \code{\link{censReg}}.
 }
-

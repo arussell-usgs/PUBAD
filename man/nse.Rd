@@ -29,4 +29,3 @@ or columns of a matrix.
 \details{
 Lorem ipsum...
 }
-

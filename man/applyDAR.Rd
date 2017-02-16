@@ -54,4 +54,3 @@ nearest-neighbor and map-correlation drainage area ratio.
 \details{
 Lorem ipsum...
 }
-

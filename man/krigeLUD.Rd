@@ -79,4 +79,3 @@ The function \code{krigeLUD} uses daily variograms of the
 \details{
 Lorem ipsum...
 }
-

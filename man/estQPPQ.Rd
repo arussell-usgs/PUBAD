@@ -63,4 +63,3 @@ location.
 \details{
 Lorem ipsum...
 }
-

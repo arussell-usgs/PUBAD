@@ -62,4 +62,3 @@ average percent errors of the natural streamflows, the average differences
 of the logarithms of streamflows, and the
 Pearson and Spearman correlations between observed and simulated streamflow.
 }
-
