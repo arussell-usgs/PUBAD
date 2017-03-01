@@ -86,7 +86,7 @@ readCompileFlow<-function(listofgages,units=c("cfs","cms"),dataset_name="",
       returnList[[length(returnList)+1]] <- qdatai
 
       # Check that there are more than 1 measurement in qdatai
-      if (length(qdatai)!=0) { #There is more than 1 measurement
+      if (nrow(qdatai)!=0) { #There is more than 1 measurement
 
         #Rename columns
         colnames(qdatai)[1:3]<-c("agency","site_no","datetime")
