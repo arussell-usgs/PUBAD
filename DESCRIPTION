@@ -25,15 +25,5 @@ Imports:
     pastecs,
     smwrStats,
     matrixStats,
-    geosphere,
-    Lmoments,
-    Matrix,
-    RandomFields,
-    goftest,
-    mgcv,
-    nlme,
-    splancs
-Remotes: 
-    github::USGS-R/smwrQW,
-    github::USGS-R/smwrStats
-RoxygenNote: 6.0.1
+    geosphere
+RoxygenNote: 6.0.0
